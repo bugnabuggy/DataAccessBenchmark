@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   dataSourceSession = new MatTableDataSource<RecordTestSession>(this.session);
   
   @ViewChild(MatPaginator) paginatorSession: MatPaginator;
-  @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
+  // @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
   ngOnInit():void{
     this.service.Get().then(records=>{
       let recordsArray=JSON.parse(records._body);
@@ -53,8 +53,9 @@ export class AppComponent implements OnInit {
     })
   }
   ngAfterViewInit() {
-    this.dataSourceHistory.paginator= this.paginatorHistory; 
+    // this.dataSourceHistory.paginator= this.paginatorHistory; 
     this.dataSourceSession.paginator = this.paginatorSession;
+    
   }
 
 

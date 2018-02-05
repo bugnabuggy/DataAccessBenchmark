@@ -1,116 +1,124 @@
 <mat-tab-group class="demo-tab-group">
-    <mat-tab label="Curren Session">
-      <div class="demo-tab-content">
-<div class="example-container mat-elevation-z8">
-    <mat-table #table1 [dataSource]="dataSourceSession">
-  
-      <!-- Position Column -->
-      <ng-container matColumnDef="Count">
-        <mat-header-cell *matHeaderCellDef> Count </mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.Count}} </mat-cell>
-      </ng-container>
-  
-      <!-- Name Column -->
-      <ng-container matColumnDef="TimeAddEntityFramework">
-        <mat-header-cell *matHeaderCellDef>
-          <mat-form-field class="example-full-width">
-              <input type="number" matInput #countRecords>
-          </mat-form-field>
-          <button mat-button (click)='Fill(countRecords.value)'>Fill records</button> 
-        </mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeAddEntityFramework}} </mat-cell>
-      </ng-container>
-  
-      <!-- Weight Column -->
-      <ng-container matColumnDef="TimeDeleteEntityFramework">
-        <mat-header-cell *matHeaderCellDef> 
-          <mat-form-field class="example-full-width">
-              <input type="number" matInput #countDeleteEF>
-          </mat-form-field>
-          <button mat-button (click)='CountDeleteEF(countDeleteEF.value)'>Delete with EF</button> </mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeDeleteEntityFramework}} </mat-cell>
-      </ng-container>
-  
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="TimeDeleteSQL">
-        <mat-header-cell *matHeaderCellDef> 
-          <mat-form-field class="example-full-width">
-              <input type="number" matInput #countDeleteSQL>
-          </mat-form-field>
-          <button mat-button (click)='CountDeleteSQL(countDeleteSQL.value)'>Delete with sql</button> </mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeDeleteSQL}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="ComplexQueryTimeEntityFramework">
-        <mat-header-cell *matHeaderCellDef> <button mat-button (click)='ReqestLinq()'>Select with EF</button></mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.ComplexQueryTimeEntityFramework}} </mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="ComplexQueryTimeSql">
-        <mat-header-cell *matHeaderCellDef> <button mat-button (click)='ReqestSql()'>Select with SQL</button></mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.ComplexQueryTimeSql}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="TimeClearEntityFramework">
-        <mat-header-cell *matHeaderCellDef> <button mat-button (click)='ClearEF()'>Flush with EF</button></mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeClearEntityFramework}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="TimeClearSql">
-        <mat-header-cell *matHeaderCellDef> <button mat-button (click)='Clearsql()'>Flush with sql</button></mat-header-cell>
-        <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeClearSql}} </mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumnsSession"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumnsSession;"></mat-row>
-    </mat-table>
-  
-    <mat-paginator #paginatorSession 
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5, 10, 20]">
-    </mat-paginator>
-  </div>
-</div>
-</mat-tab>
-<mat-tab label="History" >
+  <mat-tab label="Curren Session">
     <div class="demo-tab-content">
-        <div class="example-container mat-elevation-z8">
-            <mat-table #table2 [dataSource]="dataSourceHistory">
-          
-              <!-- Position Column -->
-              <ng-container matColumnDef="Id">
-                <mat-header-cell *matHeaderCellDef> № </mat-header-cell>
-                <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Id}} </mat-cell>
-              </ng-container>
-          
-              <!-- Name Column -->
-              <ng-container matColumnDef="Count">
-                <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
-                <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Count}} </mat-cell>
-              </ng-container>
-          
-              <!-- Weight Column -->
-              <ng-container matColumnDef="TypeOperation">
-                <mat-header-cell *matHeaderCellDef>TypeOperation</mat-header-cell>
-                <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.TypeOperation}} </mat-cell>
-              </ng-container>
-          
-              <!-- Symbol Column -->
-              <ng-container matColumnDef="ExecutionTime">
-                <mat-header-cell *matHeaderCellDef>ExecutionTime</mat-header-cell>
-                <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.ExecutionTime}} </mat-cell>
-              </ng-container>
-          
-              <mat-header-row *matHeaderRowDef="displayedColumnsHistory"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumnsHistory;"></mat-row>
-            </mat-table>
-          
-            <mat-paginator #paginatorHistory
+      <div class="example-container mat-elevation-z8">
+        <mat-table #table1 [dataSource]="dataSourceSession">
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Count">
+            <mat-header-cell *matHeaderCellDef> Count </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.Count}} </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="TimeAddEntityFramework">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput #countRecords>
+              </mat-form-field>
+              <button mat-button (click)='Fill(countRecords.value)'>Fill records</button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeAddEntityFramework}} </mat-cell>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="TimeDeleteEntityFramework">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput #countDeleteEF>
+              </mat-form-field>
+              <button mat-button (click)='CountDeleteEF(countDeleteEF.value)'>Delete with EF</button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeDeleteEntityFramework}} </mat-cell>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="TimeDeleteSQL">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-form-field class="example-full-width">
+                <input type="number" matInput #countDeleteSQL>
+              </mat-form-field>
+              <button mat-button (click)='CountDeleteSQL(countDeleteSQL.value)'>Delete with sql</button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeDeleteSQL}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ComplexQueryTimeEntityFramework">
+            <mat-header-cell *matHeaderCellDef>
+              <button mat-button (click)='ReqestLinq()'>Select with EF</button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.ComplexQueryTimeEntityFramework}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ComplexQueryTimeSql">
+            <mat-header-cell *matHeaderCellDef>
+              <button mat-button (click)='ReqestSql()'>Select with SQL</button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.ComplexQueryTimeSql}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="TimeClearEntityFramework">
+            <mat-header-cell *matHeaderCellDef>
+              <button mat-button (click)='ClearEF()'>Flush with EF</button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeClearEntityFramework}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="TimeClearSql">
+            <mat-header-cell *matHeaderCellDef>
+              <button mat-button (click)='Clearsql()'>Flush with sql</button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestSession"> {{RecordTestSession.TimeClearSql}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsSession"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsSession;"></mat-row>
+        </mat-table>
+
+        <mat-paginator #paginatorSession [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+        </mat-paginator>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="History">
+    <div class="demo-tab-content">
+      <div class="example-container mat-elevation-z8">
+        <mat-table #table2 [dataSource]="dataSourceHistory">
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Id">
+            <mat-header-cell *matHeaderCellDef> № </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Id}} </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="Count">
+            <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Count}} </mat-cell>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="TypeOperation">
+            <mat-header-cell *matHeaderCellDef>TypeOperation</mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.TypeOperation}} </mat-cell>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="ExecutionTime">
+            <mat-header-cell *matHeaderCellDef>ExecutionTime</mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.ExecutionTime}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsHistory"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsHistory;"></mat-row>
+        </mat-table>
+
+        <!-- <mat-paginator #paginatorHistory
                            [pageSize]="10"
                            [pageSizeOptions]="[5, 10, 20]">
-            </mat-paginator>
-          </div>
-  <button mat-button (click)='ClearHistory()'>Clear History</button>
+            </mat-paginator> -->
+      </div>
+      <button mat-button (click)='ClearHistory()'>Clear History</button>
     </div>
   </mat-tab>
 </mat-tab-group>
