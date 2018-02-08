@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="example-container mat-elevation-z8">
+        <button mat-button (click)='ClearHistory()'>Clear History</button>
+        <mat-table #table2 [dataSource]="dataSourceHistory">
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Id">
+            <mat-header-cell *matHeaderCellDef> № </mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Id}} </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="Count">
+            <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Count}} </mat-cell>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="TypeOperation">
+            <mat-header-cell *matHeaderCellDef>TypeOperation</mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.TypeOperation}} </mat-cell>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="ExecutionTime">
+            <mat-header-cell *matHeaderCellDef>ExecutionTime</mat-header-cell>
+            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.ExecutionTime}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsHistory"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsHistory;"></mat-row>
+        </mat-table>
+
+        <mat-paginator #paginatorHistory [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+
+        </mat-paginator>
+      </div>
+    </div>
+    <div class="col-md-4 history">
+      <mat-form-field>
+        <mat-select placeholder="Type Operation">
+          <mat-option #typeName *ngFor="let type of typeOperation" [value]="type" (click)="SvgDrawingGraph(typeName.value)">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
