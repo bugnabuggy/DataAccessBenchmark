@@ -7,7 +7,7 @@ namespace benchmark.Functional.DataForRandomFillingTables
 {
     public  class ProductName
     {
-        public  string[] ProductNameList { get;set; }
+       public  string[] ProductNameList { get;set; }
 
        public ProductName()
         {

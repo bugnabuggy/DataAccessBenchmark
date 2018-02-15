@@ -5,15 +5,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using benchmark.Functional.DataContext;
-using benchmark.Functional.Entity;
+using benchmark.Functional.Entitys;
+using benchmark.Functional.Entitys;
 using benchmark.Functional.Models;
 using benchmark.Functional.Repositories;
+using benchmark.Functional.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace benchmark.Controllers
 {
@@ -22,16 +23,16 @@ namespace benchmark.Controllers
     public class SqlController : Controller
     {
 
-        private BenchmarkDataContext _ctx;
-        private IRepository<HistoryTest> _repositoryHistory;
+        private IRepository<TestHistory> _repositoryHistory;
         private IRepository<Vendor> _repositoryVendor;
-        private IOperationWithEntityBd _operationWithEntityBd;
+        private OperationCRUDSQL _operationCRUDSQL;
+        private IServiceFroWorkWithDB _serviceFroWorkWithDB;
 
-        public SqlController(BenchmarkDataContext ctx, IRepository<HistoryTest> repositoryHistory, IRepository<Vendor> repositoryVendor, IOperationWithEntityBd operationWithEntityBd)
+        public SqlController(BenchmarkDataContext ctx, IRepository<TestHistory> repositoryHistory, IRepository<Vendor> repositoryVendor, OperationCRUDSQL operationCRUDSQL, IServiceFroWorkWithDB serviceFroWorkWithDB)
         {
-            this._operationWithEntityBd = operationWithEntityBd;
+            this._serviceFroWorkWithDB = serviceFroWorkWithDB;
+            this._operationCRUDSQL = operationCRUDSQL;
             this._repositoryHistory = repositoryHistory;
-            this._ctx = ctx;
             this._repositoryVendor = repositoryVendor;
         }
         [HttpGet]
@@ -39,34 +40,12 @@ namespace benchmark.Controllers
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var countItem = 0;
-            
-                using (var command = this._ctx.Database.GetDbConnection().CreateCommand())
-                {
-                    command.CommandType = CommandType.Text;
-                    command.CommandText = "SELECT Vendors.Id ,Vendors.Name, COUNT(DISTINCT p.Id) AS Count_Products " +
-                                          "From Vendors " +
-                                          "LEFT JOIN Products AS p ON p.VendorId = Vendors.Id " +
-                                          "GROUP BY Vendors.Id, Vendors.Name ";
-                    this._ctx.Database.OpenConnection();
-                    var reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            var data = new object[reader.FieldCount];
-                            var count = reader.GetValues(data);
-                            countItem++;
-                        }
-                    }
-                    
-                }
-            
+            var countItem =this._operationCRUDSQL.Select();
             var time = stopwatch.Elapsed.ToString();
-            this._repositoryHistory.Add(new HistoryTest() {  Count = countItem, TypeOperation = "Select with SQL",ExecutionTime = time });
+            this._repositoryHistory.Add(new TestHistory() {  Count = countItem, OperationType = "Select with SQL",ExecutionTime = time });
             return new RecordResult()
             {
-                Time = time,
+                ExecutionTime = time,
                 Count = countItem
             }; ;
         }
@@ -76,13 +55,12 @@ namespace benchmark.Controllers
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var count = this._ctx.Database.ExecuteSqlCommand("DELETE FROM Vendors");
-            this._ctx.Database.ExecuteSqlCommand("DELETE FROM WareHouses");
+            var count = this._operationCRUDSQL.DeleteAll();
             var time = stopwatch.Elapsed.ToString();
-            this._repositoryHistory.Add(new HistoryTest(){Count = count,TypeOperation = "Flush with SQL", ExecutionTime = time});
+            this._repositoryHistory.Add(new TestHistory(){Count = count,OperationType = "Flush with SQL", ExecutionTime = time});
             return new RecordResult()
             {
-                Time = time,
+                ExecutionTime = time,
                 Count = count
             };
         }
@@ -96,19 +74,19 @@ namespace benchmark.Controllers
                 return new RecordResult()
                 {
                     Error = "the number of records to delete is more than the table",
-                    Time = "",
+                    ExecutionTime = "",
                     Count = 0
                 };
             }
-            var numbersRecords = this._operationWithEntityBd.NumberFroDelete(countDelete);
+            var numbersRecords = this._serviceFroWorkWithDB.GetVendorsToDelete(countDelete);
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var count = this._operationWithEntityBd.DeleteCountSQL(numbersRecords);
+            var count = this._operationCRUDSQL.RecordsCountForDelete(numbersRecords);
             var time = stopwatch.Elapsed.ToString();
-            this._repositoryHistory.Add(new HistoryTest() { Count = count, TypeOperation = "Delete with SQL", ExecutionTime = time });
+            this._repositoryHistory.Add(new TestHistory() { Count = count, OperationType = "Delete with SQL", ExecutionTime = time });
             return new RecordResult()
             {
-                Time = time,
+                ExecutionTime = time,
                 Count = count
             };
         }

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using benchmark.Functional;
 using benchmark.Functional.DataContext;
+using benchmark.Functional.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -43,7 +45,6 @@ namespace benchmark
                             .AllowAnyHeader();
                     });
             });
-
             appConfigurator.ConfigureServices(services);
         }
 
@@ -51,7 +52,7 @@ namespace benchmark
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
-                app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
             
             appConfigurator.UseMvcAndConfigureRoutes(app);
 

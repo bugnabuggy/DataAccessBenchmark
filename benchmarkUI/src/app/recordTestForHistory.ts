@@ -1,6 +1,6 @@
 export class RecordTestForHistory {
     Id : string;
     Count: number;
-    TypeOperation :string;
+    OperationType :string;
     ExecutionTime :string;
   }

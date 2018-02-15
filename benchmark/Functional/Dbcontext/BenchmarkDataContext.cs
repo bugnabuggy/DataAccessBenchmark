@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using benchmark.Functional.Entity;
+using benchmark.Functional.Entitys;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ namespace benchmark.Functional.DataContext
         public DbSet<Product> Products { get; set; }
         public DbSet<WareHouse> WareHouses { get; set; }
         public DbSet<ProducteInWareHouse> ProducteInWareHouses { get; set; }
-        public DbSet<HistoryTest> HistoryTests { get; set; }
+        public DbSet<TestHistory> HistoryTests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

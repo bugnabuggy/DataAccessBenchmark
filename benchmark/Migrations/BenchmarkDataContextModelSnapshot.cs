@@ -20,32 +20,16 @@ namespace benchmark.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("benchmark.Functional.Entity.HistoryTest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Count");
-
-                    b.Property<string>("ExecutionTime");
-
-                    b.Property<string>("TypeOperation");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HistoryTests");
-                });
-
-            modelBuilder.Entity("benchmark.Functional.Entity.Product", b =>
+            modelBuilder.Entity("benchmark.Functional.Entitys.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Cost");
+
                     b.Property<string>("ProductName");
 
                     b.Property<Guid>("VendorId");
-
-                    b.Property<int>("cost");
 
                     b.HasKey("Id");
 
@@ -54,7 +38,7 @@ namespace benchmark.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("benchmark.Functional.Entity.ProducteInWareHouse", b =>
+            modelBuilder.Entity("benchmark.Functional.Entitys.ProducteInWareHouse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -74,7 +58,23 @@ namespace benchmark.Migrations
                     b.ToTable("ProducteInWareHouses");
                 });
 
-            modelBuilder.Entity("benchmark.Functional.Entity.Vendor", b =>
+            modelBuilder.Entity("benchmark.Functional.Entitys.TestHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Count");
+
+                    b.Property<string>("ExecutionTime");
+
+                    b.Property<string>("OperationType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HistoryTests");
+                });
+
+            modelBuilder.Entity("benchmark.Functional.Entitys.Vendor", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -86,36 +86,36 @@ namespace benchmark.Migrations
                     b.ToTable("Vendors");
                 });
 
-            modelBuilder.Entity("benchmark.Functional.Entity.WareHouse", b =>
+            modelBuilder.Entity("benchmark.Functional.Entitys.WareHouse", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Locatoin");
 
-                    b.Property<string>("name");
+                    b.Property<string>("Name");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("WareHouses");
                 });
 
-            modelBuilder.Entity("benchmark.Functional.Entity.Product", b =>
+            modelBuilder.Entity("benchmark.Functional.Entitys.Product", b =>
                 {
-                    b.HasOne("benchmark.Functional.Entity.Vendor", "Vendor")
+                    b.HasOne("benchmark.Functional.Entitys.Vendor", "Vendor")
                         .WithMany()
                         .HasForeignKey("VendorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("benchmark.Functional.Entity.ProducteInWareHouse", b =>
+            modelBuilder.Entity("benchmark.Functional.Entitys.ProducteInWareHouse", b =>
                 {
-                    b.HasOne("benchmark.Functional.Entity.Product", "Product")
+                    b.HasOne("benchmark.Functional.Entitys.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("benchmark.Functional.Entity.WareHouse", "WareHouse")
+                    b.HasOne("benchmark.Functional.Entitys.WareHouse", "WareHouse")
                         .WithMany()
                         .HasForeignKey("WareHouseId")
                         .OnDelete(DeleteBehavior.Cascade);

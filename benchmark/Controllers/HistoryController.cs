@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using benchmark.Functional.DTO;
-using benchmark.Functional.Entity;
+using benchmark.Functional.Entitys;
 using benchmark.Functional.Repositories;
+using benchmark.Functional.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,21 +16,21 @@ namespace benchmark.Controllers
     {
 
 
-        private IOperationWithEntityBd _operationWithEntityBd;
-        private IRepository<HistoryTest> _repositoryHistory;
+        private IServiceFroWorkWithDB _serviceFroWorkWithDB;
+        private IRepository<TestHistory> _repositoryHistory;
 
-        public HistoryController(IOperationWithEntityBd operationWithEntityBd, IRepository<HistoryTest> repositoryHistory)
+        public HistoryController(IServiceFroWorkWithDB serviceFroWorkWithDB, IRepository<TestHistory> repositoryHistory)
         {
-            this._operationWithEntityBd = operationWithEntityBd;
+            this._serviceFroWorkWithDB = serviceFroWorkWithDB;
             this._repositoryHistory = repositoryHistory;
         }
 
 
         [HttpGet]
-        public IEnumerable<HistoryTest> Get()
+        public IEnumerable<TestHistory> Get()
         {
             
-            return  this._operationWithEntityBd.GetHistory(); 
+            return  this._serviceFroWorkWithDB.GetHistory(); 
 
         }
 

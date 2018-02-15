@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavLinks } from './navLinks';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
 
 
 export class AppComponent  {
+
+  navLinks= NavLinks;
  
 }

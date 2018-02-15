@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using benchmark.Functional.Entity;
+using benchmark.Functional.Entitys;
 using benchmark.Functional.Repositories;
+using benchmark.Functional.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +29,7 @@ namespace benchmark.Functional
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=N2N}/{action=Index}/{id?}");
+                    template: "{controller=EF}/{action=Index}/{id?}");
             });
         }
     
@@ -43,11 +44,13 @@ namespace benchmark.Functional
             services.AddTransient<IRepository<Product>, DbRepository<Product>>();
             services.AddTransient<IRepository<WareHouse>, DbRepository<WareHouse>>();
             services.AddTransient<IRepository<ProducteInWareHouse>, DbRepository<ProducteInWareHouse>>();
-            services.AddTransient<IRepository<HistoryTest>, DbRepository<HistoryTest>>();
+            services.AddTransient<IRepository<TestHistory>, DbRepository<TestHistory>>();
 
-            services.AddTransient< IOperationWithEntityBd, OperationWithEntityBd >();
+            services.AddTransient<OperationCRUDEF>();
+            services.AddTransient<OperationCRUDSQL>();
+            services.AddTransient<IServiceFroWorkWithDB, ServiceFroWorkWithDB>();
 
-            
+
         }
     }
 }

@@ -1,7 +1,12 @@
-<div class="container-fluid"><nav>
-  <a routerLink="/Session">Session</a>
-  <a routerLink="/History">History</a>
-</nav>
-  <br>
+<div class="container-fluid">
+<nav mat-tab-nav-bar>
+    <a mat-tab-link
+       *ngFor="let link of navLinks"
+       [routerLink]="link.path"
+       routerLinkActive #rla="routerLinkActive"
+       [active]="rla.isActive">
+      {{link.label}}
+    </a>
+  </nav>
 <router-outlet></router-outlet>
 </div>

@@ -12,8 +12,8 @@ export class Service {
       ) { }
 
 
-      ReqestLinq():Promise<any>{
-        return this.http.get('http://localhost:51909/Linq')
+      ReqestEF():Promise<any>{
+        return this.http.get('http://localhost:51909/EF')
         .toPromise()
         .then(resp=> {return resp});
       }
@@ -24,8 +24,9 @@ export class Service {
         .then(resp=> {return resp});
       }
 
-      Fill(countRecords):Promise<any>{
-        return this.http.get('http://localhost:51909/Linq/'+countRecords)
+      Fill(recordsCount):Promise<any>{
+        return this.http.post('http://localhost:51909/EF',recordsCount,{headers:new Headers({
+          'Content-Type': 'application/json charset=utf-8'})})
         .toPromise()
         .then(resp=> {return resp});
       }
@@ -37,7 +38,7 @@ export class Service {
       }
 
       ClearEF():Promise<any>{
-        return this.http.delete('http://localhost:51909/Linq')
+        return this.http.delete('http://localhost:51909/EF')
         .toPromise()
         .then(resp=> { return resp});
       }
@@ -54,7 +55,7 @@ export class Service {
       }
 
       DeleteEF(countDeleteEF):Promise<any>{
-        return this.http.delete('http://localhost:51909/Linq/'+countDeleteEF)
+        return this.http.delete('http://localhost:51909/EF/'+countDeleteEF)
         .toPromise()
         .then(resp=> { return resp});
       }

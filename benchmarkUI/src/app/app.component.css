@@ -1,62 +1,11 @@
-.example-container {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-}
-
-.mat-table {
-  overflow: auto;
-  max-height: auto;
-}
 
 
-nav a {
-  padding: 5px 10px;
-  text-decoration: none;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #eee;
-  border-radius: 4px;
-}
-nav a:visited, a:link {
-  color: #607D8B;
-}
-nav a:hover {
-  color: #039be5;
-  background-color: #CFD8DC;
-}
-nav a.active {
-  color: #039be5;
-}
-
-
-.demo-tab-group {
-  border: 1px solid #e8e8e8;
-}
-
-.demo-tab-content {
-  padding: 16px;
+.paddingTop{
+  padding-top: 20px;
 }
 
 
 
-
-.div.barChart {
-  display: inline-block;
-  width: 20px;
-  height: 75px;
-  background-color: powderblue;
-  margin-right: 10px;
-};
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: powderblue;
-  shape-rendering: crispEdges;
-}
-
-.axis text {
-  font-family: monospace;
-  font-size: 1rem;
+.example-full-width {
+  width: 100%;
 }

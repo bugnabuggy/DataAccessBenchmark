@@ -40,7 +40,7 @@ import { SessionComponent }   from './session.component';
     MatSelectModule,
     BrowserAnimationsModule,
     CdkTableModule,
-    AppRoutingModule 
+    AppRoutingModule
   ],
   providers: [Service,D3_Service],
   bootstrap: [AppComponent]

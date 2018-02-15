@@ -1,118 +1,173 @@
 import { Injectable } from '@angular/core';
 import { HistoryTests } from './historyTests'
 import * as d3 from "d3";
+
+import * as moment from 'moment';
 import { debug } from 'util';
+
+declare var Chart;
 
 @Injectable()
 export class D3_Service {
 
-    constructor(
-    ) { }
+    private dataForChartXSQL: number[] = [];
+    private dataForChartXEF: number[] = [];
 
-    SvgDrawingGraph(data : any) {
-        var height = 500,
-            width = 500,
-            padding = 50;
-         var xScale = d3.scaleLinear()
-                        .domain([0, d3.max(d3.entries(data), function(d){ return d.value.Count+2})])
-                        .range([padding, width - padding * 3]);
-            
-         var yScale = d3.scaleLinear()
-                        .domain([0, d3.max(d3.entries(data), function(d){ return parseInt( d.value.Id)+2 })])
-                        .range([height - padding, padding]);
-       
-        var svg = d3.select("app-history").select("div.history")
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height);
-        svg.selectAll("circle")
-            .data(d3.entries(data))
-            .enter()
-            .append("circle")
-            .attr("cx", function(d){
-                return xScale(d.value.Count);
-                })
-            .attr("cy",function(d){
-                return  yScale(d.value.Id); 
-                })
-            .attr("r", 5
-                );     
+    chart(data: any) {
+        var dataForChartYEF: string[] = [];
+        var dataForChartYSQL: string[] = [];
+        var maxY:number=0;
+
+        for (var i = 0; i < data.filteredEF.length; i++) {
+
+            dataForChartYEF.push(moment.parseZone(data.filteredEF[i].ExecutionTime, 'mm:ss.SSS').format('mmss.SSS'));
+        }
+
+
+
+        for (var i = 0; i < data.filteredSQL.length; i++) {
+
+            dataForChartYSQL.push(moment.parseZone(data.filteredSQL[i].ExecutionTime, 'mm:ss.SSS').format('mmss.SSS'));
+        }
+        var yAxesValues = dataForChartYSQL.concat(dataForChartYEF);
         
-        svg.selectAll("text")
-            .data(d3.entries(data))
-            .enter()
-            .append("text")
-        
-            .text(function(d){
-                 return "" + d.value.ExecutionTime;
-                })
-// 3. then fix the position (x & y)
-            .attr("x", function(d){
-                return xScale(d.value.Count);
-                })
-            .attr("y",function(d){
-                return yScale(d.value.Id);
-                })
+        for (var i=0;i< yAxesValues.length;i++)
+        {
+            if (maxY< parseFloat(yAxesValues[i])){
+                maxY=parseFloat(yAxesValues[i]);
+               
+            }
+        }
+        maxY+=0.1;
+        var dataForChartEF = []
+        for (var i = 0; i < this.dataForChartXEF.length; i++) {
+            dataForChartEF.push({ x: this.dataForChartXEF[i], y: dataForChartYEF[i] })
+        }
+        var dataForChartSQL = []
+        for (var i = 0; i < this.dataForChartXSQL.length; i++) {
+            dataForChartSQL.push({ x: this.dataForChartXSQL[i], y: dataForChartYSQL[i] })
+        }
 
-            .attr("font-family", "monospace")
-            .attr("font-size", "1rem")
-            .attr("fill", "lightsalmon");
-             
-            //** Adding Axes
-      
+        var lineChartData = {
 
-      
-      // X Axis
-        var xAxis = d3.axisBottom(xScale)
-                    .ticks(10); //set rough # of ticks      
+            datasets: [{
+                label: 'EF',
+                type: 'line',
+                borderColor: 'red',
+                backgroundColor: 'red',
+                fill: false,
+                data: dataForChartEF
 
-        svg.append("g")
-            .attr("class", "axis") //assign "axis" class
-            .attr("transform", "translate(0, "+ (height - padding) +")")
-            .call(xAxis);
+            },
+            {
+                label: 'SQL',
+                type: 'line',
+                borderColor: 'blue',
+                backgroundColor: 'blue',
+                fill: false,
+                data: dataForChartSQL,
 
-//Y Axis
-        var yAxis = d3.axisLeft(yScale)
-                    .ticks(10);
+            }
+            ]
+        };
 
-        svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", "translate("+ padding +", 0)")
-            .call(yAxis);
-
-
-        //** One more thing: Formatting Tick Labels
-        var formatAsPercentage = d3.format(".1%");
-        xAxis.tickFormat(formatAsPercentage);
-
-
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart.Scatter(ctx, {
+            data: lineChartData,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Chart.js Scatter Chart'
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            max: maxY
+                        }
+                    }]
+                }
+            }
+        });
 
     }
 
-    SampleData( historyTests : any, nameOperation:string): any {
+    drawingGraphCount(data: any): any {
+
+        for (var i = 0; i < data.filteredEF.length; i++) {
+            this.dataForChartXEF.push(data.filteredEF[i].Count);
+        }
+
+        for (var i = 0; i < data.filteredSQL.length; i++) {
+            this.dataForChartXSQL.push(data.filteredSQL[i].Count);
+        }
+
+    }
+
+    drawingGraphID(data: any): any {
+        this.dataForChartXSQL = [];
+        this.dataForChartXEF = [];
+        for (var i = 0; i < data.filteredEF.length; i++) {
+            this.dataForChartXEF.push(data.filteredEF[i].Id);
+        }
+
+        for (var i = 0; i < data.filteredSQL.length; i++) {
+            this.dataForChartXSQL.push(data.filteredSQL[i].Id);
+        }
+
+    }
+
+    sampleDataOnTransactions(historyTests: any, operationName: string, count: number): any {
+
+
+        var filteredOperations: any;
+        if (count != 0) {
+            filteredOperations = this.filteredCount(historyTests, count);
+        }
+        else {
+            filteredOperations = this.filteredOperations(historyTests, operationName);
+        }
+        var filteredSQL = this.filteredOperationsSql(filteredOperations);
+        var filteredEF = this.filteredOperationsEF(filteredOperations);
+
+        var dataForChartOnSQLAndEF = {
+            filteredEF,
+            filteredSQL
+        };
+        return dataForChartOnSQLAndEF;
+    }
+
+    filteredOperations(historyTests: any, operationName: string): any {
         function condition(value, index, array) {
             var result = false;
-            if (value.TypeOperation.indexOf(nameOperation) >= 0) {
+            if (value.OperationType.indexOf(operationName) >= 0) {
                 result = true;
             }
             return result;
         };
-
         var filteredOperations = historyTests.filter(condition);
-        var filteredSQL = this.filteredOperationsSql(filteredOperations);
-        var filteredEF = this.filteredOperationsEF(filteredOperations);
-
-        var dataOnSQLAndEF=  {
-            filteredSQL,
-            filteredEF
-        };
-        return dataOnSQLAndEF;
+        return filteredOperations;
     }
-
-    filteredOperationsSql(filteredOperations):any{
+    filteredCount(historyTests: any, count: number): any {
         function condition(value, index, array) {
             var result = false;
-            if (value.TypeOperation.indexOf("SQL") >= 0) {
+            if (value.Count == count) {
+                result = true;
+            }
+            return result;
+        };
+        var filteredOperations = historyTests.filter(condition);
+        return filteredOperations;
+    }
+
+    filteredOperationsSql(filteredOperations): any {
+        function condition(value, index, array) {
+            var result = false;
+            if (value.OperationType.indexOf("SQL") >= 0) {
                 result = true;
             }
             return result;
@@ -121,10 +176,10 @@ export class D3_Service {
         var filteredSQL = filteredOperations.filter(condition);
         return filteredSQL;
     }
-    filteredOperationsEF(filteredOperations):any{
+    filteredOperationsEF(filteredOperations): any {
         function condition(value, index, array) {
             var result = false;
-            if (value.TypeOperation.indexOf("EF") >= 0) {
+            if (value.OperationType.indexOf("EF") >= 0) {
                 result = true;
             }
             return result;
@@ -134,8 +189,18 @@ export class D3_Service {
         return filteredEF;
     }
 
-    parseData(){
+    getlistsCounts(historyTests: any, operationName: string): any {
+        var counts: number[] = []
 
+        var filteredOperations = this.filteredOperations(historyTests, operationName);
+        for (var i = 0; i < filteredOperations.length; i++) {
+            counts.push(filteredOperations[i].Count);
+        }
+        counts.sort(); // сортируем массив
+        for (var i = counts.length - 1; i > 0; i--) {
+            if (counts[i] == counts[i - 1]) counts.splice(i, 1);
+        }
+        return counts;
     }
 
 }

@@ -2,9 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Service } from './service';
 import { D3_Service } from './d3-service';
 
-import { Session } from './session'
+import { HistoryTests } from './historyTests'
 import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { RecordTestSession } from './recordTestSession'
+import { RecordTestForHistory } from './recordTestForHistory'
 
 @Component({
   selector: 'app-session',
@@ -14,30 +14,26 @@ import { RecordTestSession } from './recordTestSession'
 
 
 export class SessionComponent {
-  private session = Session;
+  private session = HistoryTests;
   constructor(
     private service: Service,
   ) { }
 
   displayedColumnsSession = [
+     'Id',
     'Count',
-    'TimeAddEntityFramework',
-    'TimeDeleteEntityFramework',
-    'TimeDeleteSQL',
-    'ComplexQueryTimeEntityFramework',
-    'ComplexQueryTimeSql',
-    'TimeClearEntityFramework',
-    'TimeClearSql'];
-  id = 0;
+    'OperationType',
+    'ExecutionTime'];
+  id = 1;
 
 
-  dataSourceSession = new MatTableDataSource<RecordTestSession>(this.session);
+  dataSourceSession = new MatTableDataSource<RecordTestForHistory>(this.session);
 
   @ViewChild(MatPaginator) paginatorSession: MatPaginator;
-  // @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
+
 
   ngAfterViewInit() {
-    // this.dataSourceHistory.paginator= this.paginatorHistory; 
+
     this.dataSourceSession.paginator = this.paginatorSession;
 
   }
@@ -46,7 +42,7 @@ export class SessionComponent {
     if (countRecords > 0) {
       countRecords;
       this.service.Fill(countRecords).then(time => {
-        this.session.unshift({ id: "", Count: countRecords, ComplexQueryTimeEntityFramework: "", TimeAddEntityFramework: time._body, TimeClearEntityFramework: "", ComplexQueryTimeSql: "", TimeClearSql: "", TimeDeleteEntityFramework: "", TimeDeleteSQL: "" });
+        this.session.unshift({ Id:""+this.id++, Count:countRecords, OperationType: "Fill records", ExecutionTime:time._body});
         this.dataSourceSession.data = this.session
       });
     }
@@ -55,7 +51,7 @@ export class SessionComponent {
   ClearEF() {
     this.service.ClearEF().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ id: "", Count: result.count, ComplexQueryTimeEntityFramework: "", TimeAddEntityFramework: "", TimeClearEntityFramework: result.time, ComplexQueryTimeSql: "", TimeClearSql: "", TimeDeleteEntityFramework: "", TimeDeleteSQL: "" });
+      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Flush with EF", ExecutionTime: result.executionTime});
       this.dataSourceSession.data = this.session
     });
   }
@@ -64,7 +60,7 @@ export class SessionComponent {
   Clearsql() {
     this.service.Clearsql().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ id: "", Count: result.count, ComplexQueryTimeEntityFramework: "", TimeAddEntityFramework: "", TimeClearEntityFramework: "", ComplexQueryTimeSql: "", TimeClearSql: result.time, TimeDeleteEntityFramework: "", TimeDeleteSQL: "" });
+      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Flush with SQL", ExecutionTime: result.executionTime});
       this.dataSourceSession.data = this.session
     });
   }
@@ -72,15 +68,15 @@ export class SessionComponent {
   ReqestSql() {
     this.service.ReqestSql().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ id: "", Count: result.count, ComplexQueryTimeEntityFramework: "", TimeAddEntityFramework: "", TimeClearEntityFramework: "", ComplexQueryTimeSql: result.time, TimeClearSql: "", TimeDeleteEntityFramework: "", TimeDeleteSQL: "" });
+      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Select with SQL", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session
     });
   }
 
   ReqestLinq() {
-    this.service.ReqestLinq().then(time => {
+    this.service.ReqestEF().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ id: "", Count: result.count, ComplexQueryTimeEntityFramework: result.time, TimeAddEntityFramework: "", TimeClearEntityFramework: "", ComplexQueryTimeSql: "", TimeClearSql: "", TimeDeleteEntityFramework: "", TimeDeleteSQL: "" });
+      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Select with EF", ExecutionTime: result.executionTime});
       this.dataSourceSession.data = this.session
     });
   }
@@ -89,7 +85,7 @@ export class SessionComponent {
     this.service.DeleteEF(countDeleteEF).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
-        this.session.unshift({ id: "", Count: result.count, ComplexQueryTimeEntityFramework: "", TimeAddEntityFramework: "", TimeClearEntityFramework: "", ComplexQueryTimeSql: "", TimeClearSql: "", TimeDeleteEntityFramework: result.time, TimeDeleteSQL: "" });
+        this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Delete with EF", ExecutionTime: result.executionTime});
         this.dataSourceSession.data = this.session
       }
       else {
@@ -103,7 +99,7 @@ export class SessionComponent {
     this.service.DeleteSQL(countDeleteSQL).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
-        this.session.unshift({ id: "", Count: result.count, ComplexQueryTimeEntityFramework: "", TimeAddEntityFramework: "", TimeClearEntityFramework: "", ComplexQueryTimeSql: "", TimeClearSql: "", TimeDeleteEntityFramework: "", TimeDeleteSQL: result.time });
+        this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Delete with SQL", ExecutionTime: result.executionTime});
         this.dataSourceSession.data = this.session
       }
       else {
