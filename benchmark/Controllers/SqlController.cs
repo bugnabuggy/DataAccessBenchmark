@@ -50,8 +50,8 @@ namespace benchmark.Controllers
             }; ;
         }
 
-        [HttpDelete]
-        public RecordResult Delete()
+        [HttpDelete("/Sql/Flush")]
+        public RecordResult Flush()
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();

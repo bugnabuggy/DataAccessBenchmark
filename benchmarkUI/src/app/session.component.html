@@ -1,24 +1,41 @@
 <div class="row">
-  <button mat-button (click)='Fill(countRecords.value)'>Fill records</button>
-  <mat-form-field >
-    <input type="number" matInput #countRecords>
-  </mat-form-field>
+  <div class="col-3">
+    <div class="row">
+      <button mat-button (click)='Fill(countRecords.value)'>Fill records</button>
+      <mat-form-field>
+        <input type="number" matInput #countRecords>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <button mat-button (click)='CountDeleteEF(countDelete.value)'>Delete with EF</button>
+      <button mat-button (click)='CountDeleteSQL(countDelete.value)'>Delete with SQL</button>
+      <mat-form-field>
+        <input type="number" matInput #countDelete>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <button mat-button (click)='SelectEF()'>Select with EF</button>
+      <button mat-button (click)='SelectSql()'>Select with SQL</button>
+    </div>
+    <div class="row">
+      <button mat-button (click)='FlushEF()'>Flush with EF</button>
+      <button mat-button (click)='FlushSql()'>Flush with SQL</button>
+    </div>
+  </div>
+  <div class="col-9">
+    <mat-list>
+        <mat-list-item>CPU:{{CPU}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>RAM:{{RAM}}</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>HDDType:{{HDDType}} HDDModels:{{HDDModels}}</mat-list-item>
+      </mat-list>
+      
+  </div>
 </div>
-<div class="row">
-  <button mat-button (click)='CountDeleteEF(countDelete.value)'>Delete with EF</button>
-  <button mat-button (click)='CountDeleteSQL(countDelete.value)'>Delete with SQL</button>
-  <mat-form-field >
-    <input type="number" matInput #countDelete>
-  </mat-form-field>
-</div>
-<div class="row">
-  <button mat-button (click)='ReqestLinq()'>Select with EF</button>
-   <button mat-button (click)='ReqestSql()'>Select with SQL</button>
-</div>
-<div class="row">
-  <button mat-button (click)='ClearEF()'>Flush with EF</button>
-  <button mat-button (click)='Clearsql()'>Flush with SQL</button>
-</div>
+<mat-spinner diameter=30 *ngIf=isSpinner>
+
+</mat-spinner>
 <div class="example-container mat-elevation-z8">
   <mat-table #table2 [dataSource]="dataSourceSession">
 

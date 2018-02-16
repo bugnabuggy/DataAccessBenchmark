@@ -13,7 +13,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppRoutingModule }     from './app-routing.module';
 
-import {MatButtonModule,MatPaginatorModule,MatTableModule,MatInputModule,MatTabsModule,MatSelectModule} from '@angular/material';
+import {MatButtonModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatInputModule,
+        MatTabsModule,
+        MatSelectModule,
+        MatListModule,
+        MatDividerModule,
+        MatProgressSpinnerModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
 
@@ -35,8 +43,11 @@ import { SessionComponent }   from './session.component';
     MatTableModule,
     MatButtonModule,
     MatPaginatorModule,
+    MatListModule,
     MatInputModule,
     MatTabsModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     BrowserAnimationsModule,
     CdkTableModule,

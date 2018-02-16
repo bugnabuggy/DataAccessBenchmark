@@ -12,24 +12,33 @@ export class D3_Service {
 
     private dataForChartXSQL: number[] = [];
     private dataForChartXEF: number[] = [];
-
+    private dataForChartYEF: string[] = [];
+    private dataForChartYSQL: string[] = [];
+    private lineChartData:any;
+    private myChart:any;
+    private labelStringX:string;
     chart(data: any) {
-        var dataForChartYEF: string[] = [];
-        var dataForChartYSQL: string[] = [];
         var maxY:number=0;
-
+        var scaleType:string="ss.SSS";
+        var labelStringY:string="Seconds";
+        if (this.isMinute(data)==true)
+        {
+            labelStringY="minutes";
+            scaleType="mm.ss";
+        }
+        this.dataForChartYEF=[];
+        this.dataForChartYSQL=[];
         for (var i = 0; i < data.filteredEF.length; i++) {
 
-            dataForChartYEF.push(moment.parseZone(data.filteredEF[i].ExecutionTime, 'mm:ss.SSS').format('mmss.SSS'));
+            this.dataForChartYEF.push(moment.parseZone(data.filteredEF[i].ExecutionTime, 'HH:mm:ss.SSS').format(scaleType));
         }
-
-
 
         for (var i = 0; i < data.filteredSQL.length; i++) {
 
-            dataForChartYSQL.push(moment.parseZone(data.filteredSQL[i].ExecutionTime, 'mm:ss.SSS').format('mmss.SSS'));
+            this.dataForChartYSQL.push(moment.parseZone(data.filteredSQL[i].ExecutionTime, 'HH:mm:ss.SSS').format(scaleType));
         }
-        var yAxesValues = dataForChartYSQL.concat(dataForChartYEF);
+
+        var yAxesValues = this.dataForChartYSQL.concat(this.dataForChartYEF);
         
         for (var i=0;i< yAxesValues.length;i++)
         {
@@ -41,14 +50,14 @@ export class D3_Service {
         maxY+=0.1;
         var dataForChartEF = []
         for (var i = 0; i < this.dataForChartXEF.length; i++) {
-            dataForChartEF.push({ x: this.dataForChartXEF[i], y: dataForChartYEF[i] })
+            dataForChartEF.push({ x: this.dataForChartXEF[i], y: this.dataForChartYEF[i] })
         }
         var dataForChartSQL = []
         for (var i = 0; i < this.dataForChartXSQL.length; i++) {
-            dataForChartSQL.push({ x: this.dataForChartXSQL[i], y: dataForChartYSQL[i] })
+            dataForChartSQL.push({ x: this.dataForChartXSQL[i], y: this.dataForChartYSQL[i] })
         }
 
-        var lineChartData = {
+        this.lineChartData = {
 
             datasets: [{
                 label: 'EF',
@@ -72,8 +81,8 @@ export class D3_Service {
         };
 
         var ctx = document.getElementById("myChart");
-        var myChart = new Chart.Scatter(ctx, {
-            data: lineChartData,
+        this.myChart = new Chart.Scatter(ctx, {
+            data: this.lineChartData,
             options: {
                 title: {
                     display: true,
@@ -81,11 +90,19 @@ export class D3_Service {
                 },
                 scales: {
                     xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString:this.labelStringX
+                        },
                         ticks: {
                             min: 0
                         }
                     }],
                     yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString:labelStringY
+                        },
                         ticks: {
                             max: maxY
                         }
@@ -97,7 +114,8 @@ export class D3_Service {
     }
 
     drawingGraphCount(data: any): any {
-
+        this.dataForChartXSQL = [];
+        this.dataForChartXEF = [];
         for (var i = 0; i < data.filteredEF.length; i++) {
             this.dataForChartXEF.push(data.filteredEF[i].Count);
         }
@@ -105,6 +123,7 @@ export class D3_Service {
         for (var i = 0; i < data.filteredSQL.length; i++) {
             this.dataForChartXSQL.push(data.filteredSQL[i].Count);
         }
+        this.labelStringX="Count";
 
     }
 
@@ -118,7 +137,29 @@ export class D3_Service {
         for (var i = 0; i < data.filteredSQL.length; i++) {
             this.dataForChartXSQL.push(data.filteredSQL[i].Id);
         }
+        this.labelStringX="Number tests"
+    }
 
+    isCreateChart(){
+        
+        if(this.myChart!=undefined)
+        {
+            this.myChart.destroy();
+        }
+    }
+
+    isMinute(data:any):boolean{
+        function condition(value, index, array) {
+            var result = false;
+            if (value.ExecutionTime >="00:01:00.000") {
+                result = true;
+            }
+            return result;
+        };
+        var result:string[]=[];
+        result=data.filteredEF.concat(data.filteredSQL)
+
+        return result.some(condition); 
     }
 
     sampleDataOnTransactions(historyTests: any, operationName: string, count: number): any {

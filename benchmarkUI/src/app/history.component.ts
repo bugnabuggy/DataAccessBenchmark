@@ -30,7 +30,16 @@ export class HistoryComponent implements OnInit {
   ];
   id = 1;
 
+
+
   dataSourceHistory = new MatTableDataSource<RecordTestForHistory>(this.historyTests);
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSourceHistory.filter = filterValue;
+  }
+
 
   @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
 
@@ -54,12 +63,14 @@ export class HistoryComponent implements OnInit {
     var data= this.d3_service.sampleDataOnTransactions(this.historyTests, typeName,0);
     this.filteredOperations= this.d3_service.getlistsCounts(this.historyTests, typeName);
     this.d3_service.drawingGraphCount(data);
+    this.d3_service.isCreateChart();
     this.d3_service.chart(data);
   }
 
   SvgDrawingGraph(count: number) {
     var data = this.d3_service.sampleDataOnTransactions(this.historyTests,"",count)
     this.d3_service.drawingGraphID(data);
+    this.d3_service.isCreateChart();
     this.d3_service.chart(data);
   }
 

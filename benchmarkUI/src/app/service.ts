@@ -12,13 +12,13 @@ export class Service {
       ) { }
 
 
-      ReqestEF():Promise<any>{
+      SelectEF():Promise<any>{
         return this.http.get('http://localhost:51909/EF')
         .toPromise()
         .then(resp=> {return resp});
       }
 
-      ReqestSql():Promise<any>{
+      SelectSql():Promise<any>{
         return this.http.get('http://localhost:51909/Sql')
         .toPromise()
         .then(resp=> {return resp});
@@ -37,8 +37,8 @@ export class Service {
         .then(resp=> { return resp});
       }
 
-      ClearEF():Promise<any>{
-        return this.http.delete('http://localhost:51909/EF')
+      FlushEF():Promise<any>{
+        return this.http.delete('http://localhost:51909/EF/Flush')
         .toPromise()
         .then(resp=> { return resp});
       }
@@ -48,8 +48,8 @@ export class Service {
         .then(resp=> { return resp});
       }
 
-      Clearsql():Promise<any>{
-        return this.http.delete('http://localhost:51909/Sql')
+      Flushsql():Promise<any>{
+        return this.http.delete('http://localhost:51909/Sql/Flush')
         .toPromise()
         .then(resp=> { return resp});
       }
@@ -64,6 +64,12 @@ export class Service {
         return this.http.delete('http://localhost:51909/Sql/'+countDeleteSQL)
         .toPromise()
         .then(resp=> { return resp});
+      }
+
+      serverFeatures():Promise<any>{
+        return this.http.get('http://localhost:51909/Session')
+        .toPromise()
+        .then(resp=> {return resp});
       }
 
 }

@@ -49,6 +49,7 @@ namespace benchmark.Functional
             services.AddTransient<OperationCRUDEF>();
             services.AddTransient<OperationCRUDSQL>();
             services.AddTransient<IServiceFroWorkWithDB, ServiceFroWorkWithDB>();
+            services.AddTransient<IServerFeatures, ServerFeatures>();
 
 
         }
