@@ -17,7 +17,8 @@ export class D3_Service {
     private lineChartData:any;
     private myChart:any;
     private labelStringX:string;
-    chart(data: any) {
+
+    getChart(data: any) {
         var maxY:number=0;
         var scaleType:string="ss.SSS";
         var labelStringY:string="Seconds";
@@ -47,7 +48,7 @@ export class D3_Service {
                
             }
         }
-        maxY+=0.1;
+        maxY+=maxY*0.15;
         var dataForChartEF = []
         for (var i = 0; i < this.dataForChartXEF.length; i++) {
             dataForChartEF.push({ x: this.dataForChartXEF[i], y: this.dataForChartYEF[i] })
@@ -104,6 +105,7 @@ export class D3_Service {
                             labelString:labelStringY
                         },
                         ticks: {
+                            min:0,
                             max: maxY
                         }
                     }]
@@ -131,11 +133,11 @@ export class D3_Service {
         this.dataForChartXSQL = [];
         this.dataForChartXEF = [];
         for (var i = 0; i < data.filteredEF.length; i++) {
-            this.dataForChartXEF.push(data.filteredEF[i].Id);
+            this.dataForChartXEF.push(i);
         }
 
         for (var i = 0; i < data.filteredSQL.length; i++) {
-            this.dataForChartXSQL.push(data.filteredSQL[i].Id);
+            this.dataForChartXSQL.push(i);
         }
         this.labelStringX="Number tests"
     }

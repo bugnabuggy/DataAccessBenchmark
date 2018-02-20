@@ -38,9 +38,21 @@ namespace benchmark.Controllers
         [HttpGet]
         public RecordResult Get()
         {
+
+            var vendor = this._repositoryVendor.GetAll();
+            if (vendor.Count() ==0)
+            {
+                return new RecordResult()
+                {
+                    Error = "add records",
+                    ExecutionTime = "",
+                    Count = 0
+                };
+            }
+            int countItem = 0;
             var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var countItem =this._operationCRUDSQL.Select();
+            stopwatch.Start(); 
+            countItem =this._operationCRUDSQL.Select();
             var time = stopwatch.Elapsed.ToString();
             this._repositoryHistory.Add(new TestHistory() {  Count = countItem, OperationType = "Select with SQL",ExecutionTime = time });
             return new RecordResult()
@@ -68,6 +80,7 @@ namespace benchmark.Controllers
         [HttpDelete("{countDelete}")]
         public RecordResult Delete(int countDelete)
         {
+          int count = 0;
             var vendor = this._repositoryVendor.GetAll();
             if (vendor.Count() < countDelete)
             {
@@ -81,7 +94,19 @@ namespace benchmark.Controllers
             var numbersRecords = this._serviceFroWorkWithDB.GetVendorsToDelete(countDelete);
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var count = this._operationCRUDSQL.RecordsCountForDelete(numbersRecords);
+            try
+            {
+                count = this._operationCRUDSQL.RecordsCountForDelete(numbersRecords);
+            }
+            catch (Exception e)
+            {
+                return new RecordResult()
+                {
+                    Error = "Unable to delete record! Retry the request",
+                    ExecutionTime = "",
+                    Count = 0
+                };
+            }
             var time = stopwatch.Elapsed.ToString();
             this._repositoryHistory.Add(new TestHistory() { Count = count, OperationType = "Delete with SQL", ExecutionTime = time });
             return new RecordResult()

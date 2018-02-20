@@ -1,4 +1,4 @@
-import { Component, ViewChild,OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Service } from './service';
 import { D3_Service } from './d3-service';
 
@@ -15,30 +15,40 @@ import { RecordTestForHistory } from './recordTestForHistory'
 
 export class SessionComponent implements OnInit {
   private session = HistoryTests;
-  private isSpinner:boolean=false;
-  private CPU:string;
-  private RAM:string;
-  private HDDType:string;
-  private HDDModels:string;
+  private isSpinner: boolean = false;
+  private CPU: string;
+  private RAM: string;
+  private HDDType: string;
+  private HDDModels: string;
   constructor(
     private service: Service,
   ) { }
 
   ngOnInit(): void {
-    this.service.serverFeatures().then(serverFeatures=>{ 
-    var result = JSON.parse(serverFeatures._body);
-    this.CPU = result.cpu;
-    this.RAM = result.ram;
-    this.HDDType = result.hddType;
-    this.HDDModels = result.hddModels;
+    this.service.serverFeatures().then(serverFeatures => {
+      var result = JSON.parse(serverFeatures._body);
+      this.CPU = result.cpu;
+      this.RAM = result.ram;
+      this.HDDType = result.hddType;
+      this.HDDModels = result.hddModels;
+    }).catch(error => {
+      if (error.status == 404)
+        alert("enter the number of entries to delete")
     });
+    if (this.session.length == 0) {
+      this.id = 1;
+    }
+    else {
+      this.id = this.session.length + 1;
+    }
   }
+
   displayedColumnsSession = [
-     'Id',
+    'Id',
     'Count',
     'OperationType',
     'ExecutionTime'];
-  id = 1;
+  id;
 
 
   dataSourceSession = new MatTableDataSource<RecordTestForHistory>(this.session);
@@ -54,85 +64,117 @@ export class SessionComponent implements OnInit {
 
   Fill(countRecords: number) {
     if (countRecords > 0) {
-      this.isSpinner=true;
+      this.isSpinner = true;
       this.service.Fill(countRecords).then(time => {
-        this.session.unshift({ Id:""+this.id++, Count:countRecords, OperationType: "Fill records", ExecutionTime:time._body});
+        this.session.unshift({ Id: "" + this.id++, Count: countRecords, OperationType: "Fill records", ExecutionTime: time._body });
         this.dataSourceSession.data = this.session;
-        this.isSpinner=false;
+        this.isSpinner = false;
+      }).catch(error => {
+        if (error.status == 404)
+          alert("enter the number of entries to delete")
+        this.isSpinner = false;
       });
     }
   }
 
   FlushEF() {
-    this.isSpinner=true;
+    this.isSpinner = true;
     this.service.FlushEF().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Flush with EF", ExecutionTime: result.executionTime});
+      this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Flush with EF", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
-      this.isSpinner=false;
+      this.isSpinner = false;
+    }).catch(error => {
+      if (error.status == 404)
+        alert("enter the number of entries to delete")
+      this.isSpinner = false;
     });
   }
 
 
   FlushSql() {
-    this.isSpinner=true;
+    this.isSpinner = true;
     this.service.Flushsql().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Flush with SQL", ExecutionTime: result.executionTime});
+      this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Flush with SQL", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
-      this.isSpinner=false;
+      this.isSpinner = false;
+    }).catch(error => {
+      if (error.status == 404)
+        alert("enter the number of entries to delete")
+      this.isSpinner = false;
     });
   }
 
   SelectSql() {
-    this.isSpinner=true;
+    this.isSpinner = true;
     this.service.SelectSql().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Select with SQL", ExecutionTime: result.executionTime });
-      this.dataSourceSession.data = this.session;
-      this.isSpinner=false;
+      if (result.error == null) {
+        this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Select with SQL", ExecutionTime: result.executionTime });
+        this.dataSourceSession.data = this.session;
+      }
+      else {
+        alert(result.error)
+      }
+      this.isSpinner = false;
+    }).catch(error => {
+      if (error.status == 404)
+        alert("enter the number of entries to delete")
+      this.isSpinner = false;
     });
   }
 
   SelectEF() {
-    this.isSpinner=true;
+    this.isSpinner = true;
     this.service.SelectEF().then(time => {
       let result = JSON.parse(time._body);
-      this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Select with EF", ExecutionTime: result.executionTime});
+      this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Select with EF", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
-      this.isSpinner=false;
+      this.isSpinner = false;
+    }).catch(error => {
+      if (error.status == 404)
+        alert("enter the number of entries to delete")
+      this.isSpinner = false;
     });
   }
 
   CountDeleteEF(countDeleteEF) {
-    this.isSpinner=true;
+    this.isSpinner = true;
     this.service.DeleteEF(countDeleteEF).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
-        this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Delete with EF", ExecutionTime: result.executionTime});
+        this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Delete with EF", ExecutionTime: result.executionTime });
         this.dataSourceSession.data = this.session;
-        this.isSpinner=false;
       }
       else {
-        debugger
         alert(result.error)
       }
+      this.isSpinner = false;
+    }).catch(error => {
+      if (error.status == 404)
+        alert("enter the number of entries to delete")
+      this.isSpinner = false;
     });
   }
 
   CountDeleteSQL(countDeleteSQL) {
-    this.isSpinner=true;
+    this.isSpinner = true;
     this.service.DeleteSQL(countDeleteSQL).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
-        this.session.unshift({ Id: ""+ this.id++, Count: result.count, OperationType: "Delete with SQL", ExecutionTime: result.executionTime});
+        this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Delete with SQL", ExecutionTime: result.executionTime });
         this.dataSourceSession.data = this.session;
-        this.isSpinner=false;
       }
       else {
         alert(result.error)
       }
+      this.isSpinner = false;
     }
-    );
+    ).catch(error => {
+      if (error.status == 404)
+        alert("enter the number of entries to delete")
+      this.isSpinner = false;
+    });
   }
 }

@@ -10,7 +10,7 @@ namespace benchmark.Functional.Services
     {
       public string GetCPUName()
       {
-       var name =GetServerFeature("Win32_Processor");
+       var name = GetServerFeatureOption("Win32_Processor");
       var result = name["Name"].ToString();
       return result;
 
@@ -18,7 +18,7 @@ namespace benchmark.Functional.Services
 
       public double GetRAMCount()
       {
-        var item =GetServerFeature("Win32_OperatingSystem");
+        var item = GetServerFeatureOption("Win32_OperatingSystem");
         var number = Convert.ToDouble(item["TotalVisibleMemorySize"].ToString());
         var result = Math.Round((number / (1024 * 1024)), 2); ;
         return result;
@@ -26,26 +26,25 @@ namespace benchmark.Functional.Services
 
       public string GetHDDTypeAndModel()
       {
-        var count =GetServerFeature("Win32_DiskDrive");
-        var result = count["InterfaceType"].ToString()+":"+ count["Model"].ToString();
+        var HDDdata = GetServerFeatureOption("Win32_DiskDrive");
+        var result = HDDdata["InterfaceType"].ToString()+":"+ HDDdata["Model"].ToString();
       return result;
       }
 
-      public Dictionary<string, object> GetServerFeature(string objectName)
+      public Dictionary<string, object> GetServerFeatureOption(string objectName)
       {
         ManagementClass myManagementClass = new ManagementClass(objectName);
         ManagementObjectCollection myManagementCollection = myManagementClass.GetInstances();
 
         PropertyDataCollection myProperties = myManagementClass.Properties;
         Dictionary<string, object> myPropertyResults = new Dictionary<string, object>();
-        foreach (var obj in myManagementCollection)
-        {
+        var obj = myManagementCollection.OfType<ManagementObject>().FirstOrDefault();
           foreach (var myProperty in myProperties)
           {
             myPropertyResults.Add(myProperty.Name,
               obj.Properties[myProperty.Name].Value);
           }
-        }
+         
         return myPropertyResults;
 
       }
