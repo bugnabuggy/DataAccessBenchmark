@@ -52,6 +52,8 @@ namespace benchmark
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
+            app.UseStaticFiles();
+
             app.UseDeveloperExceptionPage();
             
             appConfigurator.UseMvcAndConfigureRoutes(app);

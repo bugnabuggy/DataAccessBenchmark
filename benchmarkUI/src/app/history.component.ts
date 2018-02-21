@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Service } from './service';
-import { D3_Service } from './d3-service';
+import { HTTPService } from './httpService';
+import { ChartService} from './chartService';
 import { HistoryTests } from './historyTests'
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { RecordTestForHistory } from './recordTestForHistory'
@@ -15,11 +15,12 @@ import { OperationType } from './operationType'
 
 export class HistoryComponent implements OnInit {
   private historyTests = HistoryTests;
-  private operationType = OperationType;
-  private filteredOperations:any;
+  operationType = OperationType;
+  filteredOperations:any;
+  publicTypeName:string;
   constructor(
-    private service: Service,
-    private d3_service: D3_Service
+    private httpService: HTTPService,
+    private chartService: ChartService
   ) { }
 
   displayedColumnsHistory = [
@@ -45,7 +46,7 @@ export class HistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
 
   ngOnInit(): void {
-    this.service.Get().then(records => {
+    this.httpService.Get().then(records => {
       let recordsArray = JSON.parse(records._body);
       this.historyTests = [];
       for (let index in recordsArray) {
@@ -60,24 +61,26 @@ export class HistoryComponent implements OnInit {
     this.dataSourceHistory.paginator = this.paginatorHistory;
 
   }
-  SampleDataOnTransactions(typeName: string){
-    var data= this.d3_service.sampleDataOnTransactions(this.historyTests, typeName,0);
-    this.filteredOperations= this.d3_service.getlistsCounts(this.historyTests, typeName);
-    this.d3_service.drawingGraphCount(data);
-    this.d3_service.isCreateChart();
-    this.d3_service.getChart(data);
+  drawingGraphOperations(typeName: string){
+    this.filteredOperations = [];
+    var data= this.chartService.sampleDataOnTransactions(this.historyTests, typeName,0);
+    this.publicTypeName=typeName;
+    this.filteredOperations= this.chartService.getlistsCounts(this.historyTests, typeName);
+    this.chartService.drawingGraphCount(data);
+    this.chartService.isCreateChart();
+    this.chartService.getChart(data);
   }
 
-  SvgDrawingGraph(count: number) {
-    var data = this.d3_service.sampleDataOnTransactions(this.historyTests,"",count)
-    this.d3_service.drawingGraphID(data);
-    this.d3_service.isCreateChart();
-    this.d3_service.getChart(data);
+  drawingGraphCount(count: number) {
+    var data = this.chartService.sampleDataOnTransactions(this.historyTests,this.publicTypeName,count)
+    this.chartService.drawingGraphID(data);
+    this.chartService.isCreateChart();
+    this.chartService.getChart(data);
   }
 
 
   ClearHistory() {
-    this.service.ClearHistory();
+    this.httpService.ClearHistory();
     location.reload()
   }
 

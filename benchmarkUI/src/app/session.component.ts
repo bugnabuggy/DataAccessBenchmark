@@ -1,6 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { Service } from './service';
-import { D3_Service } from './d3-service';
+import { HTTPService } from './httpService';
 
 import { HistoryTests } from './historyTests'
 import { MatPaginator, MatTableDataSource } from '@angular/material';
@@ -15,17 +14,17 @@ import { RecordTestForHistory } from './recordTestForHistory'
 
 export class SessionComponent implements OnInit {
   private session = HistoryTests;
-  private isSpinner: boolean = false;
-  private CPU: string;
-  private RAM: string;
-  private HDDType: string;
-  private HDDModels: string;
+  isSpinner: boolean = false;
+  CPU: string;
+  RAM: string;
+  HDDType: string;
+  HDDModels: string;
   constructor(
-    private service: Service,
+    private httpService: HTTPService,
   ) { }
 
   ngOnInit(): void {
-    this.service.serverFeatures().then(serverFeatures => {
+    this.httpService.serverFeatures().then(serverFeatures => {
       var result = JSON.parse(serverFeatures._body);
       this.CPU = result.cpu;
       this.RAM = result.ram;
@@ -65,7 +64,7 @@ export class SessionComponent implements OnInit {
   Fill(countRecords: number) {
     if (countRecords > 0) {
       this.isSpinner = true;
-      this.service.Fill(countRecords).then(time => {
+      this.httpService.Fill(countRecords).then(time => {
         this.session.unshift({ Id: "" + this.id++, Count: countRecords, OperationType: "Fill records", ExecutionTime: time._body });
         this.dataSourceSession.data = this.session;
         this.isSpinner = false;
@@ -79,7 +78,7 @@ export class SessionComponent implements OnInit {
 
   FlushEF() {
     this.isSpinner = true;
-    this.service.FlushEF().then(time => {
+    this.httpService.FlushEF().then(time => {
       let result = JSON.parse(time._body);
       this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Flush with EF", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
@@ -94,7 +93,7 @@ export class SessionComponent implements OnInit {
 
   FlushSql() {
     this.isSpinner = true;
-    this.service.Flushsql().then(time => {
+    this.httpService.Flushsql().then(time => {
       let result = JSON.parse(time._body);
       this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Flush with SQL", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
@@ -108,7 +107,7 @@ export class SessionComponent implements OnInit {
 
   SelectSql() {
     this.isSpinner = true;
-    this.service.SelectSql().then(time => {
+    this.httpService.SelectSql().then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
         this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Select with SQL", ExecutionTime: result.executionTime });
@@ -127,7 +126,7 @@ export class SessionComponent implements OnInit {
 
   SelectEF() {
     this.isSpinner = true;
-    this.service.SelectEF().then(time => {
+    this.httpService.SelectEF().then(time => {
       let result = JSON.parse(time._body);
       this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Select with EF", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
@@ -141,7 +140,7 @@ export class SessionComponent implements OnInit {
 
   CountDeleteEF(countDeleteEF) {
     this.isSpinner = true;
-    this.service.DeleteEF(countDeleteEF).then(time => {
+    this.httpService.DeleteEF(countDeleteEF).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
         this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Delete with EF", ExecutionTime: result.executionTime });
@@ -160,7 +159,7 @@ export class SessionComponent implements OnInit {
 
   CountDeleteSQL(countDeleteSQL) {
     this.isSpinner = true;
-    this.service.DeleteSQL(countDeleteSQL).then(time => {
+    this.httpService.DeleteSQL(countDeleteSQL).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
         this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Delete with SQL", ExecutionTime: result.executionTime });

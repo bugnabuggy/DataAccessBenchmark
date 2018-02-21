@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { Service } from './service';
-import { D3_Service } from './d3-service';
+import { HTTPService } from './httpService';
+import { ChartService } from './chartService';
+import { SortFunctionService } from './sortFunctionService'
 
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
@@ -53,7 +54,7 @@ import { SessionComponent }   from './session.component';
     CdkTableModule,
     AppRoutingModule
   ],
-  providers: [Service,D3_Service],
+  providers: [HTTPService ,ChartService,SortFunctionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

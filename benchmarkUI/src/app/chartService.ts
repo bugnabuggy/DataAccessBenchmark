@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HistoryTests } from './historyTests'
-import * as d3 from "d3";
-
 import * as moment from 'moment';
 import { debug } from 'util';
-
+import { SortFunctionService } from './sortFunctionService'
 declare var Chart;
 
 @Injectable()
-export class D3_Service {
+export class ChartService {
 
     private dataForChartXSQL: number[] = [];
     private dataForChartXEF: number[] = [];
@@ -17,7 +15,11 @@ export class D3_Service {
     private lineChartData:any;
     private myChart:any;
     private labelStringX:string;
+    private typeChart:string;
 
+    constructor(private sortFunctionService:SortFunctionService){
+
+    }
     getChart(data: any) {
         var maxY:number=0;
         var scaleType:string="ss.SSS";
@@ -62,7 +64,7 @@ export class D3_Service {
 
             datasets: [{
                 label: 'EF',
-                type: 'line',
+                type: this.typeChart,
                 borderColor: 'red',
                 backgroundColor: 'red',
                 fill: false,
@@ -71,9 +73,10 @@ export class D3_Service {
             },
             {
                 label: 'SQL',
-                type: 'line',
+                type: this.typeChart,
                 borderColor: 'blue',
                 backgroundColor: 'blue',
+                borderWidth:4,
                 fill: false,
                 data: dataForChartSQL,
 
@@ -82,7 +85,7 @@ export class D3_Service {
         };
 
         var ctx = document.getElementById("myChart");
-        this.myChart = new Chart.Scatter(ctx, {
+        this.myChart = new Chart(ctx, {
             data: this.lineChartData,
             options: {
                 title: {
@@ -91,6 +94,7 @@ export class D3_Service {
                 },
                 scales: {
                     xAxes: [{
+                        type: 'linear',
                         scaleLabel: {
                             display: true,
                             labelString:this.labelStringX
@@ -100,6 +104,7 @@ export class D3_Service {
                         }
                     }],
                     yAxes: [{
+                        type: 'linear',
                         scaleLabel: {
                             display: true,
                             labelString:labelStringY
@@ -169,13 +174,16 @@ export class D3_Service {
 
         var filteredOperations: any;
         if (count != 0) {
-            filteredOperations = this.filteredCount(historyTests, count);
+            filteredOperations = this.sortFunctionService.filteredOperations(historyTests, operationName);
+            filteredOperations = this.sortFunctionService.filteredCount(filteredOperations, count);
+            this.typeChart="line";
         }
         else {
-            filteredOperations = this.filteredOperations(historyTests, operationName);
+            this.typeChart="bubble";
+            filteredOperations = this.sortFunctionService.filteredOperations(historyTests, operationName);
         }
-        var filteredSQL = this.filteredOperationsSql(filteredOperations);
-        var filteredEF = this.filteredOperationsEF(filteredOperations);
+        var filteredSQL = this.sortFunctionService.filteredOperationsSql(filteredOperations);
+        var filteredEF = this.sortFunctionService.filteredOperationsEF(filteredOperations);
 
         var dataForChartOnSQLAndEF = {
             filteredEF,
@@ -184,58 +192,10 @@ export class D3_Service {
         return dataForChartOnSQLAndEF;
     }
 
-    filteredOperations(historyTests: any, operationName: string): any {
-        function condition(value, index, array) {
-            var result = false;
-            if (value.OperationType.indexOf(operationName) >= 0) {
-                result = true;
-            }
-            return result;
-        };
-        var filteredOperations = historyTests.filter(condition);
-        return filteredOperations;
-    }
-    filteredCount(historyTests: any, count: number): any {
-        function condition(value, index, array) {
-            var result = false;
-            if (value.Count == count) {
-                result = true;
-            }
-            return result;
-        };
-        var filteredOperations = historyTests.filter(condition);
-        return filteredOperations;
-    }
-
-    filteredOperationsSql(filteredOperations): any {
-        function condition(value, index, array) {
-            var result = false;
-            if (value.OperationType.indexOf("SQL") >= 0) {
-                result = true;
-            }
-            return result;
-        };
-
-        var filteredSQL = filteredOperations.filter(condition);
-        return filteredSQL;
-    }
-    filteredOperationsEF(filteredOperations): any {
-        function condition(value, index, array) {
-            var result = false;
-            if (value.OperationType.indexOf("EF") >= 0) {
-                result = true;
-            }
-            return result;
-        };
-
-        var filteredEF = filteredOperations.filter(condition);
-        return filteredEF;
-    }
-
     getlistsCounts(historyTests: any, operationName: string): any {
         var counts: number[] = []
 
-        var filteredOperations = this.filteredOperations(historyTests, operationName);
+        var filteredOperations = this.sortFunctionService.filteredOperations(historyTests, operationName);
         for (var i = 0; i < filteredOperations.length; i++) {
             counts.push(filteredOperations[i].Count);
         }

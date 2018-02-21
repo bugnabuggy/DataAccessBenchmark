@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
-export class Service {
+export class HTTPService {
 
     constructor(
         private http: Http

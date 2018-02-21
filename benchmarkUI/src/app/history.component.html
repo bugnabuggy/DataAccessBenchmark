@@ -50,14 +50,14 @@
         <div>
             <mat-form-field>
               <mat-select placeholder="Operation Type">
-                <mat-option #typeName *ngFor="let type of operationType" [value]="type" (click)="SampleDataOnTransactions(typeName.value)">
+                <mat-option #typeName *ngFor="let type of operationType" [value]="type" (click)="drawingGraphOperations(typeName.value)">
                   {{ type }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field>
               <mat-select placeholder="Count">
-                <mat-option #typeName *ngFor="let count of filteredOperations" [value]="count" (click)="SvgDrawingGraph(typeName.value)">
+                <mat-option #selectedCount *ngFor="let count of filteredOperations" [value]="count" (click)="drawingGraphCount(selectedCount.value)">
                   {{ count }}
                 </mat-option>
               </mat-select>
