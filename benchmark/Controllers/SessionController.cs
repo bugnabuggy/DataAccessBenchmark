@@ -11,7 +11,7 @@ using ServerFeatures = benchmark.Functional.Models.ServerFeatures;
 
 namespace benchmark.Controllers
 {
-  [Route("Session")]
+  [Route("ServerInfo")]
   public class SessionController : Controller
   {
     private IServerFeatures _serverFeatures;

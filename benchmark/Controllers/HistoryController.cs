@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace benchmark.Controllers
 {
     [Produces("application/json")]
-    [Route("History")]
+    [Route("HistoryRecordsTest")]
     public class HistoryController : Controller
     {
 

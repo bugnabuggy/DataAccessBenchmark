@@ -1,39 +1,54 @@
-
-<div class="row">
+<div class="container-fluid">
+  <div class="row">
   <div class="col-3">
     <div class="row">
-      <button mat-button (click)='Fill(countRecords.value)'>Fill records</button>
-      <mat-form-field>
-        <input type="number" matInput #countRecords>
-      </mat-form-field>
+     
+        <button mat-raised-button (click)='Fill(countRecords.value)'>Fill records</button>
+     
+        <mat-form-field>
+          <input type="number" matInput #countRecords>
+        </mat-form-field>
+      
     </div>
     <div class="row">
-      <button mat-button (click)='CountDeleteEF(countDelete.value)'>Delete with EF</button>
-      <button mat-button (click)='CountDeleteSQL(countDelete.value)'>Delete with SQL</button>
-      <mat-form-field>
-        <input type="number" matInput #countDelete>
-      </mat-form-field>
+     
+        <button mat-raised-button (click)='CountDeleteEF(countDelete.value)'>Delete with EF</button>
+      
+        <button mat-raised-button (click)='CountDeleteSQL(countDelete.value)'>Delete with SQL</button>
+      
+        <mat-form-field>
+          <input type="number" matInput #countDelete>
+        </mat-form-field>
+      
     </div>
     <div class="row">
-      <button mat-button (click)='SelectEF()'>Select with EF</button>
-      <button mat-button (click)='SelectSql()'>Select with SQL</button>
+    
+        <button mat-raised-button (click)='SelectEF()'>Select with EF</button>
+      
+        <button mat-raised-button (click)='SelectSql()'>Select with SQL</button>
+      
     </div>
     <div class="row">
-      <button mat-button (click)='FlushEF()'>Flush with EF</button>
-      <button mat-button (click)='FlushSql()'>Flush with SQL</button>
+      
+        <button mat-raised-button (click)='FlushEF()'>Flush with EF</button>
+    
+        <button mat-raised-button (click)='FlushSql()'>Flush with SQL</button>
+      
     </div>
   </div>
   <div class="col-9">
     <mat-list>
-        <mat-list-item>CPU:{{CPU}}</mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>RAM:{{RAM}}</mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>HDDType:{{HDDType}} HDDModels:{{HDDModels}}</mat-list-item>
-      </mat-list>
-      
+      <mat-list-item>CPU: {{CPU}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>RAM: {{RAM}} GB</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>HDDType: {{HDDType}} HDDModels: {{HDDModels}}</mat-list-item>
+    </mat-list>
+
   </div>
 </div>
+</div>
+
 <div class="example-container mat-elevation-z8">
   <mat-table #table2 [dataSource]="dataSourceSession">
 
@@ -72,8 +87,8 @@
 <div class="spinner center" *ngIf=isSpinner>
   <div class="row justify-content-center ">
     <div class="col align-self-center ">
-        <mat-spinner diameter=100  >
-          </mat-spinner>
+      <mat-spinner diameter=100>
+      </mat-spinner>
     </div>
   </div>
 </div>

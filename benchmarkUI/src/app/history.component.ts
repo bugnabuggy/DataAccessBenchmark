@@ -14,6 +14,7 @@ import { OperationType } from './operationType'
 
 
 export class HistoryComponent implements OnInit {
+  isSpinner: boolean = false;
   private historyTests = HistoryTests;
   operationType = OperationType;
   filteredOperations:any;
@@ -46,7 +47,8 @@ export class HistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
 
   ngOnInit(): void {
-    this.httpService.Get().then(records => {
+    this.isSpinner = true;
+    this.httpService.getRecordsForHistory().then(records => {
       let recordsArray = JSON.parse(records._body);
       this.historyTests = [];
       for (let index in recordsArray) {
@@ -54,8 +56,10 @@ export class HistoryComponent implements OnInit {
         this.historyTests.unshift({ Id: "" + this.id++, Count: record.count, OperationType: record.operationType, ExecutionTime: record.executionTime });
       };
       this.dataSourceHistory.data = this.historyTests;
-      
-    })
+      this.isSpinner = false;
+    }).catch(error=>{
+      alert("the server is not available")
+    this.isSpinner = false;});
   }
   ngAfterViewInit() {
     this.dataSourceHistory.paginator = this.paginatorHistory;

@@ -24,15 +24,17 @@ export class SessionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isSpinner = true;
     this.httpService.serverFeatures().then(serverFeatures => {
       var result = JSON.parse(serverFeatures._body);
       this.CPU = result.cpu;
       this.RAM = result.ram;
       this.HDDType = result.hddType;
       this.HDDModels = result.hddModels;
+      this.isSpinner = false
     }).catch(error => {
-      if (error.status == 404)
-        alert("enter the number of entries to delete")
+          alert("the server is not available")
+        this.isSpinner = false
     });
     if (this.session.length == 0) {
       this.id = 1;
@@ -69,11 +71,17 @@ export class SessionComponent implements OnInit {
         this.dataSourceSession.data = this.session;
         this.isSpinner = false;
       }).catch(error => {
-        if (error.status == 404)
-          alert("enter the number of entries to delete")
-        this.isSpinner = false;
+        if (error.status == 404){
+          alert("wrong address")}
+          else{
+          alert("the server is not available")}
+          this.isSpinner = false;
       });
     }
+    else{
+      alert("enter the number of entries to add")
+    }
+
   }
 
   FlushEF() {
@@ -84,8 +92,10 @@ export class SessionComponent implements OnInit {
       this.dataSourceSession.data = this.session;
       this.isSpinner = false;
     }).catch(error => {
-      if (error.status == 404)
-        alert("enter the number of entries to delete")
+      if (error.status == 404){
+        alert("wrong address")}
+        else{
+        alert("the server is not available")}
       this.isSpinner = false;
     });
   }
@@ -99,8 +109,10 @@ export class SessionComponent implements OnInit {
       this.dataSourceSession.data = this.session;
       this.isSpinner = false;
     }).catch(error => {
-      if (error.status == 404)
-        alert("enter the number of entries to delete")
+      if (error.status == 404){
+      alert("wrong address")}
+      else{
+      alert("the server is not available")}
       this.isSpinner = false;
     });
   }
@@ -118,8 +130,10 @@ export class SessionComponent implements OnInit {
       }
       this.isSpinner = false;
     }).catch(error => {
-      if (error.status == 404)
-        alert("enter the number of entries to delete")
+      if (error.status == 404){
+        alert("wrong address")}
+        else{
+        alert("the server is not available")}
       this.isSpinner = false;
     });
   }
@@ -132,8 +146,10 @@ export class SessionComponent implements OnInit {
       this.dataSourceSession.data = this.session;
       this.isSpinner = false;
     }).catch(error => {
-      if (error.status == 404)
-        alert("enter the number of entries to delete")
+      if (error.status == 404){
+        alert("wrong address")}
+        else{
+        alert("the server is not available")}
       this.isSpinner = false;
     });
   }
@@ -151,8 +167,10 @@ export class SessionComponent implements OnInit {
       }
       this.isSpinner = false;
     }).catch(error => {
-      if (error.status == 404)
-        alert("enter the number of entries to delete")
+      if (error.status == 404){
+        alert("wrong address")}
+        else{
+        alert("the server is not available")}
       this.isSpinner = false;
     });
   }
@@ -171,8 +189,10 @@ export class SessionComponent implements OnInit {
       this.isSpinner = false;
     }
     ).catch(error => {
-      if (error.status == 404)
-        alert("enter the number of entries to delete")
+      if (error.status == 404){
+        alert("wrong address")}
+        else{
+        alert("the server is not available")}
       this.isSpinner = false;
     });
   }
