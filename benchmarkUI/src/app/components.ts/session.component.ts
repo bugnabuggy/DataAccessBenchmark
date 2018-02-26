@@ -1,19 +1,19 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { HTTPService } from './httpService';
+import { HTTPService } from '../services/httpService';
 
-import { HistoryTests } from './historyTests'
+import { TestsHistory } from '../models/testsHistory'
 import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { RecordTestForHistory } from './recordTestForHistory'
+import { TestRecord} from '../models/testRecord'
 
 @Component({
   selector: 'app-session',
-  templateUrl: './session.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: '../components.html/session.component.html',
+  styleUrls: ['../styles/app.component.css']
 })
 
 
 export class SessionComponent implements OnInit {
-  private session = HistoryTests;
+  private session = TestsHistory;
   isSpinner: boolean = false;
   CPU: string;
   RAM: string;
@@ -52,7 +52,7 @@ export class SessionComponent implements OnInit {
   id;
 
 
-  dataSourceSession = new MatTableDataSource<RecordTestForHistory>(this.session);
+  dataSourceSession = new MatTableDataSource<TestRecord>(this.session);
 
   @ViewChild(MatPaginator) paginatorSession: MatPaginator;
 
@@ -63,10 +63,10 @@ export class SessionComponent implements OnInit {
 
   }
 
-  Fill(countRecords: number) {
+  fill(countRecords: number) {
     if (countRecords > 0) {
       this.isSpinner = true;
-      this.httpService.Fill(countRecords).then(time => {
+      this.httpService.fill(countRecords).then(time => {
         this.session.unshift({ Id: "" + this.id++, Count: countRecords, OperationType: "Fill records", ExecutionTime: time._body });
         this.dataSourceSession.data = this.session;
         this.isSpinner = false;
@@ -84,9 +84,9 @@ export class SessionComponent implements OnInit {
 
   }
 
-  FlushEF() {
+  flushEF() {
     this.isSpinner = true;
-    this.httpService.FlushEF().then(time => {
+    this.httpService.flushEF().then(time => {
       let result = JSON.parse(time._body);
       this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Flush with EF", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
@@ -101,9 +101,9 @@ export class SessionComponent implements OnInit {
   }
 
 
-  FlushSql() {
+  flushSql() {
     this.isSpinner = true;
-    this.httpService.Flushsql().then(time => {
+    this.httpService.flushsql().then(time => {
       let result = JSON.parse(time._body);
       this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Flush with SQL", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
@@ -117,9 +117,9 @@ export class SessionComponent implements OnInit {
     });
   }
 
-  SelectSql() {
+  selectSql() {
     this.isSpinner = true;
-    this.httpService.SelectSql().then(time => {
+    this.httpService.selectSql().then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
         this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Select with SQL", ExecutionTime: result.executionTime });
@@ -138,9 +138,9 @@ export class SessionComponent implements OnInit {
     });
   }
 
-  SelectEF() {
+  selectEF() {
     this.isSpinner = true;
-    this.httpService.SelectEF().then(time => {
+    this.httpService.selectEF().then(time => {
       let result = JSON.parse(time._body);
       this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Select with EF", ExecutionTime: result.executionTime });
       this.dataSourceSession.data = this.session;
@@ -154,9 +154,9 @@ export class SessionComponent implements OnInit {
     });
   }
 
-  CountDeleteEF(countDeleteEF) {
+  countDeleteEF(countDeleteEF) {
     this.isSpinner = true;
-    this.httpService.DeleteEF(countDeleteEF).then(time => {
+    this.httpService.deleteEF(countDeleteEF).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
         this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Delete with EF", ExecutionTime: result.executionTime });
@@ -175,9 +175,9 @@ export class SessionComponent implements OnInit {
     });
   }
 
-  CountDeleteSQL(countDeleteSQL) {
+  countDeleteSQL(countDeleteSQL) {
     this.isSpinner = true;
-    this.httpService.DeleteSQL(countDeleteSQL).then(time => {
+    this.httpService.deleteSQL(countDeleteSQL).then(time => {
       let result = JSON.parse(time._body);
       if (result.error == null) {
         this.session.unshift({ Id: "" + this.id++, Count: result.count, OperationType: "Delete with SQL", ExecutionTime: result.executionTime });

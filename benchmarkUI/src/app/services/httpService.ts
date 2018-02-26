@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Endpoints } from './endpoints'
+import { Endpoints } from '../models/endpoints'
 
 
 @Injectable()
@@ -13,32 +13,32 @@ export class HTTPService {
       ) { }
 
 
-      SelectEF():Promise<any>{
+      selectEF():Promise<any>{
         return this.http.get(Endpoints.baseURL+'EF')
         .toPromise()
         .then(resp=> {return resp});
       }
 
-      SelectSql():Promise<any>{
+      selectSql():Promise<any>{
         return this.http.get(Endpoints.baseURL+'Sql')
         .toPromise()
         .then(resp=> {return resp});
       }
 
-      Fill(recordsCount):Promise<any>{
+      fill(recordsCount):Promise<any>{
         return this.http.post(Endpoints.baseURL+'EF',recordsCount,{headers:new Headers({
           'Content-Type': 'application/json charset=utf-8'})})
         .toPromise()
         .then(resp=> {return resp});
       }
 
-      ClearHistory():void{
+      clearHistory():void{
         this.http.delete(Endpoints.baseURL+'HistoryRecordsTest')
         .toPromise()
         .then(resp=> { return resp});
       }
 
-      FlushEF():Promise<any>{
+      flushEF():Promise<any>{
         return this.http.delete(Endpoints.baseURL+'EF/Flush')
         .toPromise()
         .then(resp=> { return resp});
@@ -49,19 +49,19 @@ export class HTTPService {
         .then(resp=> { return resp});
       }
 
-      Flushsql():Promise<any>{
+      flushsql():Promise<any>{
         return this.http.delete(Endpoints.baseURL+'Sql/Flush')
         .toPromise()
         .then(resp=> { return resp});
       }
 
-      DeleteEF(countDeleteEF):Promise<any>{
+      deleteEF(countDeleteEF):Promise<any>{
         return this.http.delete(Endpoints.baseURL+'EF/'+countDeleteEF)
         .toPromise()
         .then(resp=> { return resp});
       }
 
-      DeleteSQL(countDeleteSQL):Promise<any>{
+      deleteSQL(countDeleteSQL):Promise<any>{
         return this.http.delete(Endpoints.baseURL+'Sql/'+countDeleteSQL)
         .toPromise()
         .then(resp=> { return resp});

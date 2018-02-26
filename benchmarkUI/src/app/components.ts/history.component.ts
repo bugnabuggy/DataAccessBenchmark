@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HTTPService } from './httpService';
-import { ChartService} from './chartService';
-import { HistoryTests } from './historyTests'
+import { HTTPService } from '../services/httpService';
+import { ChartService} from '../services/chartService';
+import { TestsHistory } from '../models/testsHistory'
 import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { RecordTestForHistory } from './recordTestForHistory'
-import { OperationType } from './operationType'
+import { TestRecord} from '../models/testRecord'
+import { OperationType } from '../models/operationType'
 
 @Component({
   selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: '../components.html/history.component.html',
+  styleUrls: ['../styles/app.component.css']
 })
 
 
 export class HistoryComponent implements OnInit {
   isSpinner: boolean = false;
-  private historyTests = HistoryTests;
+  private testsHistory = TestsHistory;
   operationType = OperationType;
   filteredOperations:any;
   publicTypeName:string;
@@ -34,7 +34,7 @@ export class HistoryComponent implements OnInit {
 
 
 
-  dataSourceHistory = new MatTableDataSource<RecordTestForHistory>(this.historyTests);
+  dataSourceHistory = new MatTableDataSource<TestRecord>(this.testsHistory);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -50,12 +50,12 @@ export class HistoryComponent implements OnInit {
     this.isSpinner = true;
     this.httpService.getRecordsForHistory().then(records => {
       let recordsArray = JSON.parse(records._body);
-      this.historyTests = [];
+      this.testsHistory = [];
       for (let index in recordsArray) {
         let record = recordsArray[index]
-        this.historyTests.unshift({ Id: "" + this.id++, Count: record.count, OperationType: record.operationType, ExecutionTime: record.executionTime });
+        this.testsHistory.unshift({ Id: "" + this.id++, Count: record.count, OperationType: record.operationType, ExecutionTime: record.executionTime });
       };
-      this.dataSourceHistory.data = this.historyTests;
+      this.dataSourceHistory.data = this.testsHistory;
       this.isSpinner = false;
     }).catch(error=>{
       alert("the server is not available")
@@ -67,24 +67,24 @@ export class HistoryComponent implements OnInit {
   }
   drawingGraphOperations(typeName: string){
     this.filteredOperations = [];
-    var data= this.chartService.sampleDataOnTransactions(this.historyTests, typeName,0);
+    var data= this.chartService.sampleDataOnTransactions(this.testsHistory, typeName,0);
     this.publicTypeName=typeName;
-    this.filteredOperations= this.chartService.getlistsCounts(this.historyTests, typeName);
+    this.filteredOperations= this.chartService.getlistsCounts(this.testsHistory, typeName);
     this.chartService.drawingGraphCount(data);
     this.chartService.isCreateChart();
     this.chartService.getChart(data);
   }
 
   drawingGraphCount(count: number) {
-    var data = this.chartService.sampleDataOnTransactions(this.historyTests,this.publicTypeName,count)
+    var data = this.chartService.sampleDataOnTransactions(this.testsHistory,this.publicTypeName,count)
     this.chartService.drawingGraphID(data);
     this.chartService.isCreateChart();
     this.chartService.getChart(data);
   }
 
 
-  ClearHistory() {
-    this.httpService.ClearHistory();
+  clearHistory() {
+    this.httpService.clearHistory();
     location.reload()
   }
 

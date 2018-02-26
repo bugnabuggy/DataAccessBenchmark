@@ -3,7 +3,7 @@
   <div class="col-3">
     <div class="row">
      
-        <button mat-raised-button (click)='Fill(countRecords.value)'>Fill records</button>
+        <button mat-raised-button (click)='fill(countRecords.value)'>Fill records</button>
      
         <mat-form-field>
           <input type="number" matInput #countRecords>
@@ -12,9 +12,9 @@
     </div>
     <div class="row">
      
-        <button mat-raised-button (click)='CountDeleteEF(countDelete.value)'>Delete with EF</button>
+        <button mat-raised-button (click)='countDeleteEF(countDelete.value)'>Delete with EF</button>
       
-        <button mat-raised-button (click)='CountDeleteSQL(countDelete.value)'>Delete with SQL</button>
+        <button mat-raised-button (click)='countDeleteSQL(countDelete.value)'>Delete with SQL</button>
       
         <mat-form-field>
           <input type="number" matInput #countDelete>
@@ -23,16 +23,16 @@
     </div>
     <div class="row">
     
-        <button mat-raised-button (click)='SelectEF()'>Select with EF</button>
+        <button mat-raised-button (click)='selectEF()'>Select with EF</button>
       
-        <button mat-raised-button (click)='SelectSql()'>Select with SQL</button>
+        <button mat-raised-button (click)='selectSql()'>Select with SQL</button>
       
     </div>
     <div class="row">
       
-        <button mat-raised-button (click)='FlushEF()'>Flush with EF</button>
+        <button mat-raised-button (click)='flushEF()'>Flush with EF</button>
     
-        <button mat-raised-button (click)='FlushSql()'>Flush with SQL</button>
+        <button mat-raised-button (click)='flushSql()'>Flush with SQL</button>
       
     </div>
   </div>
@@ -55,25 +55,25 @@
     <!-- Position Column -->
     <ng-container matColumnDef="Id">
       <mat-header-cell *matHeaderCellDef> № </mat-header-cell>
-      <mat-cell *matCellDef="let RecordTestForSession"> {{RecordTestForSession.Id}} </mat-cell>
+      <mat-cell *matCellDef="let TestRecord"> {{TestRecord.Id}} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="Count">
       <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
-      <mat-cell *matCellDef="let RecordTestForSession"> {{RecordTestForSession.Count}} </mat-cell>
+      <mat-cell *matCellDef="let TestRecord"> {{TestRecord.Count}} </mat-cell>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="OperationType">
       <mat-header-cell *matHeaderCellDef>OperationType</mat-header-cell>
-      <mat-cell *matCellDef="let RecordTestForSession"> {{RecordTestForSession.OperationType}} </mat-cell>
+      <mat-cell *matCellDef="let TestRecord"> {{TestRecord.OperationType}} </mat-cell>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="ExecutionTime">
       <mat-header-cell *matHeaderCellDef>ExecutionTime</mat-header-cell>
-      <mat-cell *matCellDef="let RecordTestForSession"> {{RecordTestForSession.ExecutionTime}} </mat-cell>
+      <mat-cell *matCellDef="let TestRecord"> {{TestRecord.ExecutionTime}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumnsSession"></mat-header-row>

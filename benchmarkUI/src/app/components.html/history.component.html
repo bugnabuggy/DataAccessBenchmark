@@ -1,7 +1,7 @@
 
   <div class="row">
     <div class="col-12">
-        <button mat-raised-button (click)='ClearHistory()'>Clear History</button>
+        <button mat-raised-button (click)='clearHistory()'>Clear History</button>
       <div class="example-container mat-elevation-z8">
           <div class="example-header">
               <mat-form-field>
@@ -13,25 +13,25 @@
           <!-- Position Column -->
           <ng-container matColumnDef="Id">
             <mat-header-cell *matHeaderCellDef> № </mat-header-cell>
-            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Id}} </mat-cell>
+            <mat-cell *matCellDef="let TestRecord"> {{TestRecord.Id}} </mat-cell>
           </ng-container>
 
           <!-- Name Column -->
           <ng-container matColumnDef="Count">
             <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
-            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.Count}} </mat-cell>
+            <mat-cell *matCellDef="let TestRecord"> {{TestRecord.Count}} </mat-cell>
           </ng-container>
 
           <!-- Weight Column -->
           <ng-container matColumnDef="OperationType">
             <mat-header-cell *matHeaderCellDef>OperationType</mat-header-cell>
-            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.OperationType}} </mat-cell>
+            <mat-cell *matCellDef="let TestRecord"> {{TestRecord.OperationType}} </mat-cell>
           </ng-container>
 
           <!-- Symbol Column -->
           <ng-container matColumnDef="ExecutionTime">
             <mat-header-cell *matHeaderCellDef>ExecutionTime</mat-header-cell>
-            <mat-cell *matCellDef="let RecordTestForHistory"> {{RecordTestForHistory.ExecutionTime}} </mat-cell>
+            <mat-cell *matCellDef="let TestRecord"> {{TestRecord.ExecutionTime}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumnsHistory"></mat-header-row>

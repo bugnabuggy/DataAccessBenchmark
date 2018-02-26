@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { HTTPService } from './httpService';
-import { ChartService } from './chartService';
-import { SortFunctionService } from './sortFunctionService'
+import { HTTPService } from './services/httpService';
+import { ChartService } from './services/chartService';
+import { SortFunctionService } from './services/sortFunctionService'
 
 import { HttpModule } from '@angular/http';
-import { AppComponent } from './app.component';
+import { AppComponent } from './components.ts/app.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -26,8 +26,8 @@ import {MatButtonModule,
 import {CdkTableModule} from '@angular/cdk/table';
 
 
-import { HistoryComponent }   from './history.component';
-import { SessionComponent }   from './session.component';
+import { HistoryComponent }   from './components.ts/history.component';
+import { SessionComponent }   from './components.ts/session.component';
 
 @NgModule({
   declarations: [

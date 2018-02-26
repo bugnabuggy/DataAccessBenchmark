@@ -1,4 +1,4 @@
-import { Endpoints } from '../app/endpoints'
+import { Endpoints } from '../app/models/endpoints'
 export const environment = {
   production: true
 };

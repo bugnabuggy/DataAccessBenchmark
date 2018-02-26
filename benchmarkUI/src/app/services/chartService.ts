@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HistoryTests } from './historyTests'
+import { TestsHistory } from '../models/testsHistory'
 import * as moment from 'moment';
 import { debug } from 'util';
 import { SortFunctionService } from './sortFunctionService'

@@ -32,7 +32,7 @@ namespace benchmark
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BenchmarkDataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ReleaseConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString(Configuration["ConnectionToUse"])));
             services.AddMvc();
 
             services.AddCors(options =>

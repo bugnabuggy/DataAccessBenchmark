@@ -1,8 +1,8 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HistoryComponent }   from './history.component';
-import { SessionComponent }   from './session.component';
+import { HistoryComponent }   from './components.ts/history.component';
+import { SessionComponent }   from './components.ts/session.component';
 
 
 
