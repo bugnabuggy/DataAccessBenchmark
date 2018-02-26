@@ -23,6 +23,7 @@ export class ChartService {
     getChart(data: any) {
         var maxY:number=0;
         var scaleType:string="ss.SSS";
+        var maxTicksLimit:number;
         var labelStringY:string="Seconds";
         if (this.isMinute(data)==true)
         {
@@ -50,7 +51,15 @@ export class ChartService {
                
             }
         }
-        maxY+=maxY*0.15;
+        maxY += maxY*0.15;
+
+        if (this.dataForChartXSQL>this.dataForChartXEF){
+            maxTicksLimit = this.dataForChartXSQL.length;
+        }
+        else{
+            maxTicksLimit = this.dataForChartXEF.length;
+        }
+
         var dataForChartEF = []
         for (var i = 0; i < this.dataForChartXEF.length; i++) {
             dataForChartEF.push({ x: this.dataForChartXEF[i], y: this.dataForChartYEF[i] })
@@ -88,30 +97,36 @@ export class ChartService {
         this.myChart = new Chart(ctx, {
             data: this.lineChartData,
             options: {
+
                 title: {
                     display: true,
-                    text: 'Chart.js Scatter Chart'
+                    text: 'Chart.js Scatter Chart',
+                    
                 },
+                
                 scales: {
                     xAxes: [{
                         type: 'linear',
                         scaleLabel: {
                             display: true,
-                            labelString:this.labelStringX
+                            labelString:this.labelStringX,
                         },
+  
                         ticks: {
-                            min: 0
+                            suggestedMin: 1,
+                            suggestedMax:1,
+                            maxTicksLimit:maxTicksLimit,
                         }
                     }],
                     yAxes: [{
                         type: 'linear',
                         scaleLabel: {
                             display: true,
-                            labelString:labelStringY
+                            labelString:labelStringY,
                         },
                         ticks: {
-                            min:0,
-                            max: maxY
+                            suggestedMin:0,
+                            suggestedMax: maxY,
                         }
                     }]
                 }
@@ -137,12 +152,13 @@ export class ChartService {
     drawingGraphID(data: any): any {
         this.dataForChartXSQL = [];
         this.dataForChartXEF = [];
+        debugger
         for (var i = 0; i < data.filteredEF.length; i++) {
-            this.dataForChartXEF.push(i);
+            this.dataForChartXEF.push(i+0.003);
         }
 
         for (var i = 0; i < data.filteredSQL.length; i++) {
-            this.dataForChartXSQL.push(i);
+            this.dataForChartXSQL.push(i+0.003);
         }
         this.labelStringX="Number tests"
     }
