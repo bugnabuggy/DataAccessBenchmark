@@ -1,13 +1,13 @@
-
-  <div class="row">
-    <div class="col-12">
-        <button mat-raised-button (click)='clearHistory()'>Clear History</button>
-      <div class="example-container mat-elevation-z8">
-          <div class="example-header">
-              <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-              </mat-form-field>
-            </div>
+<div class="row paddingTop">
+  <div class="col-12">
+    <button mat-raised-button (click)='clearHistory()'>Clear History</button>
+    <div class="paddingTop">
+      <div class=" mat-elevation-z8">
+        <div class="example-header">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+        </div>
         <mat-table #table2 [dataSource]="dataSourceHistory">
 
           <!-- Position Column -->
@@ -44,35 +44,35 @@
       </div>
     </div>
   </div>
-    <div class="container-fluid paddingTop">
-    <div class="row">
-      <div class="col-6">  
-        <div>
-            <mat-form-field>
-              <mat-select placeholder="Operation Type">
-                <mat-option #typeName *ngFor="let type of operationType" [value]="type" (click)="drawingGraphOperations(typeName.value)">
-                  {{ type }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-select placeholder="Count">
-                <mat-option #selectedCount *ngFor="let count of filteredOperations" [value]="count" (click)="drawingGraphCount(selectedCount.value)">
-                  {{ count }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <canvas id="myChart" width="500" height="300"></canvas>
-        </div>
-    </div>
-  </div>
-  <div class="spinner center" *ngIf=isSpinner>
-    <div class="row justify-content-center ">
-      <div class="col align-self-center ">
-          <mat-spinner diameter=100  >
-            </mat-spinner>
+</div>
+<div class="container-fluid paddingTop">
+  <div class="row">
+    <div class="col-6">
+      <div>
+        <mat-form-field>
+          <mat-select placeholder="Operation Type">
+            <mat-option #typeName *ngFor="let type of operationType" [value]="type" (click)="drawingGraphOperations(typeName.value)">
+              {{ type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Count">
+            <mat-option #selectedCount *ngFor="let count of filteredOperations" [value]="count" (click)="drawingGraphCount(selectedCount.value)">
+              {{ count }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
+      <canvas id="myChart" width="500" height="300"></canvas>
     </div>
   </div>
-  
+</div>
+<div class="spinner center" *ngIf=isSpinner>
+  <div class="row justify-content-center ">
+    <div class="col align-self-center ">
+      <mat-spinner diameter=100>
+      </mat-spinner>
+    </div>
+  </div>
+</div>
