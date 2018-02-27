@@ -7,7 +7,7 @@ import { TestRecord} from '../models/testRecord'
 
 @Component({
   selector: 'app-session',
-  templateUrl: '../components.html/session.component.html',
+  templateUrl: '../templates/session.component.html',
   styleUrls: ['../styles/app.component.css']
 })
 

@@ -8,7 +8,7 @@ import { OperationType } from '../models/operationType'
 
 @Component({
   selector: 'app-history',
-  templateUrl: '../components.html/history.component.html',
+  templateUrl: '../templates/history.component.html',
   styleUrls: ['../styles/app.component.css']
 })
 
@@ -19,11 +19,6 @@ export class HistoryComponent implements OnInit {
   operationType = OperationType;
   filteredOperations:any;
   publicTypeName:string;
-  constructor(
-    private httpService: HTTPService,
-    private chartService: ChartService
-  ) { }
-
   displayedColumnsHistory = [
     'Id',
     'Count',
@@ -32,19 +27,13 @@ export class HistoryComponent implements OnInit {
   ];
   id = 1;
 
-
-
   dataSourceHistory = new MatTableDataSource<TestRecord>(this.testsHistory);
-
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    debugger
-    this.dataSourceHistory.filter = filterValue;
-  }
-
-
   @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
+
+  constructor(
+    private httpService: HTTPService,
+    private chartService: ChartService
+  ) { }
 
   ngOnInit(): void {
     this.isSpinner = true;
@@ -61,6 +50,13 @@ export class HistoryComponent implements OnInit {
       alert("the server is not available")
     this.isSpinner = false;});
   }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSourceHistory.filter = filterValue;
+  }
+
   ngAfterViewInit() {
     this.dataSourceHistory.paginator = this.paginatorHistory;
 

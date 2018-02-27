@@ -8,10 +8,8 @@ import { Endpoints } from '../models/endpoints'
 export class HTTPService {
 
     constructor(
-
         private http: Http
       ) { }
-
 
       selectEF():Promise<any>{
         return this.http.get(Endpoints.baseURL+'EF')

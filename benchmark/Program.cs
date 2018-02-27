@@ -18,26 +18,32 @@ namespace benchmark
     {
         public static void Main(string[] args)
         {
-          var webHost = BuildWebHost(args);
-          using (var scope = webHost.Services.CreateScope())
-          {
-            var services = scope.ServiceProvider;
-
-            try
+            var webHost = BuildWebHost(args);
+            using (var scope = webHost.Services.CreateScope())
             {
-              var db = services.GetRequiredService<BenchmarkDataContext>();
-              db.Database.Migrate();
+                var services = scope.ServiceProvider;
 
-            }
-            catch (Exception ex)
-            {
-              var logger = services.GetRequiredService<ILogger<Program>>();
-              logger.LogError(ex, "An error occurred while migrating the database.");
-            }
-          }
+                try
+                {
+                    var configuration = services.GetRequiredService<IConfiguration>();
+                    bool applyMigrations;
+                    bool.TryParse(configuration["ApplyMigrations"] ?? "false", out applyMigrations);
+                    if (applyMigrations)
+                    {
+                        var db = services.GetRequiredService<BenchmarkDataContext>();
+                        db.Database.Migrate();
+                    }
 
-          webHost.Run();
-    }
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while migrating the database.");
+                }
+            }
+
+            webHost.Run();
+        }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)

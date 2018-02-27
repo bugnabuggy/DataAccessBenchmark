@@ -3,13 +3,13 @@ import { NavLinks } from '../models/navLinks';
 
 @Component({
   selector: 'app-root',
-  templateUrl: '../components.html/app.component.html',
+  templateUrl: '../templates/app.component.html',
   styleUrls: ['../styles/app.component.css']
 })
 
 
 export class AppComponent  {
 
-  navLinks= NavLinks;
+  navLinks = NavLinks;
  
 }
