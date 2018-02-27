@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Endpoints } from '../models/endpoints'
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class HTTPService {
 
     constructor(
-
-        private http: Http
+        private http: HttpClient
       ) { }
-
 
       selectEF():Promise<any>{
         return this.http.get(Endpoints.baseURL+'EF')
@@ -26,10 +23,13 @@ export class HTTPService {
       }
 
       fill(recordsCount):Promise<any>{
-        return this.http.post(Endpoints.baseURL+'EF',recordsCount,{headers:new Headers({
-          'Content-Type': 'application/json charset=utf-8'})})
+        var headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+        var options =  {
+          headers: headers
+         };
+        return this.http.post(Endpoints.baseURL+'EF',recordsCount,options)
         .toPromise()
-        .then(resp=> {return resp});
+        .then(resp=> { return resp});
       }
 
       clearHistory():void{

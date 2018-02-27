@@ -68,7 +68,7 @@ export class ChartService {
         for (var i = 0; i < this.dataForChartXSQL.length; i++) {
             dataForChartSQL.push({ x: this.dataForChartXSQL[i], y: this.dataForChartYSQL[i] })
         }
-
+        
         this.lineChartData = {
 
             datasets: [{
@@ -97,7 +97,7 @@ export class ChartService {
         this.myChart = new Chart(ctx, {
             data: this.lineChartData,
             options: {
-
+                maintainAspectRatio: false,
                 title: {
                     display: true,
                     text: 'Chart.js Scatter Chart',
@@ -152,15 +152,16 @@ export class ChartService {
     drawingGraphID(data: any): any {
         this.dataForChartXSQL = [];
         this.dataForChartXEF = [];
-        debugger
         for (var i = 0; i < data.filteredEF.length; i++) {
-            this.dataForChartXEF.push(i+0.003);
+            this.dataForChartXEF.push(i);
         }
 
         for (var i = 0; i < data.filteredSQL.length; i++) {
-            this.dataForChartXSQL.push(i+0.003);
+            this.dataForChartXSQL.push(i);
         }
         this.labelStringX="Number tests"
+        this.dataForChartXEF = this.dataForChartXEF.reverse();
+        this.dataForChartXSQL = this.dataForChartXSQL.reverse();
     }
 
     isCreateChart(){
@@ -168,6 +169,7 @@ export class ChartService {
         if(this.myChart!=undefined)
         {
             this.myChart.destroy();
+            
         }
     }
 

@@ -1,5 +1,5 @@
-import { TestBed, async } from '@angular/core/testing';
-import { SessionComponent} from '../components.ts/session.component';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { SessionComponent } from '../components/session.component';
 import {MatButtonModule,
     MatPaginatorModule,
     MatTableModule,
@@ -9,11 +9,25 @@ import {MatButtonModule,
     MatListModule,
     MatDividerModule,
     MatProgressSpinnerModule} from '@angular/material';
-    import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-    import { HTTPService } from '../services/httpService';
-    import { HttpModule } from '@angular/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { HTTPService } from '../services/httpService';
+import { HttpModule } from '@angular/http';
+
+class testQuote {
+  cpu: '1'
+  ram: '2'
+  hddType:'3'
+  hddModels:'4'
+}
+
 describe('SessionComponent', () => {
+  let component: SessionComponent;
+  let fixture: ComponentFixture<SessionComponent>;
+  let getQuoteSpy: jasmine.Spy;
+  let quoteEl: HTMLElement;
   beforeEach(async(() => {
+    const httpServiceStub = jasmine.createSpyObj('HTTPService',['serverFeatures'])
+    getQuoteSpy = httpServiceStub.serverFeatures.and.returnValue(testQuote )
     TestBed.configureTestingModule({
       declarations: [
         SessionComponent
@@ -31,18 +45,17 @@ describe('SessionComponent', () => {
         MatSelectModule,
         BrowserAnimationsModule
       ],
-      providers: [HTTPService],
+      providers: [{provide: HTTPService, useValue: httpServiceStub }],
     }).compileComponents();
   }));
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(SessionComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(SessionComponent);
+    fixture = TestBed.createComponent(SessionComponent);
+    component = fixture.componentInstance;
+
+describe('when test with synchronous observable', () => {
+  it('should not show quote before OnInit', () => {
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
-  }));
+    expect(getQuoteSpy.calls.any()).toBe(testQuote, "wrong address");
+  });
+
+});
 });

@@ -6,7 +6,7 @@ import { ChartService } from './services/chartService';
 import { SortFunctionService } from './services/sortFunctionService'
 
 import { HttpModule } from '@angular/http';
-import { AppComponent } from './components.ts/app.component';
+import { AppComponent } from './components/app.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -26,8 +26,8 @@ import {MatButtonModule,
 import {CdkTableModule} from '@angular/cdk/table';
 
 
-import { HistoryComponent }   from './components.ts/history.component';
-import { SessionComponent }   from './components.ts/session.component';
+import { HistoryComponent }   from './components/history.component';
+import { SessionComponent }   from './components/session.component';
 
 @NgModule({
   declarations: [

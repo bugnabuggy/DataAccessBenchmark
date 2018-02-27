@@ -33,4 +33,9 @@
   z-index: 100; /* Заведомо быть НАД другими элементами */
  
 }
-
+.chartSize{
+  position: relative; 
+  margin: auto;
+  height:80vh;
+   width:80vw;
+}

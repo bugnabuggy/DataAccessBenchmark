@@ -44,11 +44,8 @@ namespace benchmark.Controllers
             };
         }
 
-
-  
-
         [HttpPost]
-        public string Post([FromBody]int recordsCount)
+        public  JsonResult Post([FromBody]int recordsCount)
         {
 
             var stopwatch = new Stopwatch();
@@ -57,7 +54,7 @@ namespace benchmark.Controllers
             stopwatch.Stop();
             var time = stopwatch.Elapsed.ToString();
             this._repositoryHistory.Add(new TestHistory() { Count = recordsCount, OperationType = "Fill records", ExecutionTime = time });
-            return time;
+            return Json(time);
 
         }
 
