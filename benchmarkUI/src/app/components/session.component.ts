@@ -5,6 +5,7 @@ import { QuerysForWorkDataService } from '../services/querysForWorkDataService';
 import { TestsHistory } from '../models/testsHistory'
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { TestRecord} from '../models/testRecord'
+import { SnackBarService } from '../services/snackBarService'
 
 @Component({
   selector: 'app-session',
@@ -22,7 +23,8 @@ export class SessionComponent implements OnInit {
   constructor(
     private operationServiceSQL: QuerysOperationServiceSQL,
     private operationServiceEF: QuerysOperationServiceEF,
-    private dataService:QuerysForWorkDataService
+    private dataService:QuerysForWorkDataService,
+    private snackBar: SnackBarService
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class SessionComponent implements OnInit {
       this.HDDType = serverFeatures.hddType;
       this.HDDModels = serverFeatures.hddModels;
     }).catch(error => {
-          alert("the server is not available")
+      this.snackBar.getSnackBar("the server is not available");
     });
     if (this.session.length == 0) {
       this.id = 1;
@@ -68,13 +70,13 @@ export class SessionComponent implements OnInit {
         this.dataSourceSession.data = this.session;
       }).catch(error => {
         if (error.status == 404){
-          alert("wrong address")}
+          this.snackBar.getSnackBar("wrong address")}
           else{
-          alert("the server is not available")}
+            this.snackBar.getSnackBar("the server is not available");}
       });
     }
     else{
-      alert("enter the number of entries to add")
+      this.snackBar.getSnackBar("enter the number of entries to add")
     }
 
   }
@@ -85,9 +87,9 @@ export class SessionComponent implements OnInit {
       this.dataSourceSession.data = this.session;
     }).catch(error => {
       if (error.status == 404){
-        alert("wrong address")}
+        this.snackBar.getSnackBar("wrong address")}
         else{
-        alert("the server is not available")}
+          this.snackBar.getSnackBar("the server is not available");}
     });
   }
 
@@ -98,13 +100,13 @@ export class SessionComponent implements OnInit {
         this.dataSourceSession.data = this.session;
       }
       else {
-        alert(time.error)
+        this.snackBar.getSnackBar(time.error)
       }
     }).catch(error => {
       if (error.status == 404){
-        alert("specify the number of records to delete")}
+        this.snackBar.getSnackBar("specify the number of records to delete")}
         else{
-        alert("the server is not available")}
+          this.snackBar.getSnackBar("the server is not available")}
     });
   }
 
@@ -115,9 +117,9 @@ export class SessionComponent implements OnInit {
       this.dataSourceSession.data = this.session;
     }).catch(error => {
       if (error.status == 404){
-        alert("wrong address")}
+        this.snackBar.getSnackBar("wrong address")}
         else{
-        alert("the server is not available")}
+          this.snackBar.getSnackBar("the server is not available")}
     });
   }
 
@@ -128,13 +130,13 @@ export class SessionComponent implements OnInit {
         this.dataSourceSession.data = this.session;
       }
       else {
-        alert(time.error)
+        this.snackBar.getSnackBar(time.error)
       }
     }).catch(error => {
       if (error.status == 404){
-        alert("wrong address")}
+        this.snackBar.getSnackBar("wrong address")}
         else{
-        alert("the server is not available")}
+          this.snackBar.getSnackBar("the server is not available")}
     });
   }
 
@@ -145,14 +147,14 @@ export class SessionComponent implements OnInit {
         this.dataSourceSession.data = this.session;
       }
       else {
-        alert(time.error)
+        this.snackBar.getSnackBar(time.error)
       }
     }
     ).catch(error => {
       if (error.status == 404){
-        alert("specify the number of records to delete")}
+        this.snackBar.getSnackBar("specify the number of records to delete")}
         else{
-        alert("the server is not available")}
+          this.snackBar.getSnackBar("the server is not available")}
     });
   }
   
@@ -162,9 +164,9 @@ export class SessionComponent implements OnInit {
       this.dataSourceSession.data = this.session;
     }).catch(error => {
       if (error.status == 404){
-      alert("wrong address")}
+      this.snackBar.getSnackBar("wrong address")}
       else{
-      alert("the server is not available")}
+        this.snackBar.getSnackBar("the server is not available")}
     });
   }
 

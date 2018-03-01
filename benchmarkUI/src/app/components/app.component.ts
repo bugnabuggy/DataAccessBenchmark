@@ -15,7 +15,6 @@ export class AppComponent implements DoCheck {
     private siteDataService :SiteDataService 
 ){}
 ngDoCheck(): void {
-    debugger
     this.isSpinnerAction = this.siteDataService.isSpinnerVisible;
   }
   

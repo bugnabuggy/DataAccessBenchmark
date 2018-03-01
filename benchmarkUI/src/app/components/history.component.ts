@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuerysForWorkDataService } from '../services/querysForWorkDataService';
 import { ChartService} from '../services/chartService';
 import { TestsHistory } from '../models/testsHistory'
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource} from '@angular/material';
 import { TestRecord} from '../models/testRecord'
 import { OperationType } from '../models/operationType'
+import { SnackBarService } from '../services/snackBarService'
 
 @Component({
   selector: 'app-history',
@@ -31,7 +32,8 @@ export class HistoryComponent implements OnInit {
 
   constructor(
     private querysService: QuerysForWorkDataService,
-    private chartService: ChartService
+    private chartService: ChartService,
+    private snackBar: SnackBarService
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +46,7 @@ export class HistoryComponent implements OnInit {
       };
       this.dataSourceHistory.data = this.testsHistory;
     }).catch(error=>{
-      alert("the server is not available")
+      this.snackBar.getSnackBar("the server is not available");
     });
   }
 

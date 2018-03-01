@@ -7,6 +7,7 @@ import { QuerysOperationServiceEF } from './services/querysOperationServiceEF';
 import { QuerysOperationServiceSQL } from './services/querysOperationServiceSQL';
 import { QuerysForWorkDataService } from './services/querysForWorkDataService';
 import { InterceptService } from './services/interceptorService';
+import { SnackBarService } from './services/snackBarService'
 
 import { SiteDataService } from './services/siteDataService'
 
@@ -27,6 +28,7 @@ import {
         MatSelectModule,
         MatListModule,
         MatDividerModule,
+        MatSnackBarModule,
         MatProgressSpinnerModule
       } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -56,6 +58,7 @@ import { SessionComponent }   from './components/session.component';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatSnackBarModule,
     BrowserAnimationsModule,
     CdkTableModule,
     AppRoutingModule
@@ -71,7 +74,8 @@ import { SessionComponent }   from './components/session.component';
       useClass: InterceptService,
       multi: true
     },
-    SiteDataService
+    SiteDataService,
+    SnackBarService
 
   ],
   bootstrap: [AppComponent]
