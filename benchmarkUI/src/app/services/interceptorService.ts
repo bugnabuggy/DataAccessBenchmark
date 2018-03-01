@@ -10,23 +10,23 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class InterceptService implements HttpInterceptor {
 
-constructor(
-    private siteDataService :SiteDataService 
-){}
+    constructor(
+        private siteDataService: SiteDataService
+    ) { }
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {   
-        this.siteDataService.isSpinnerVisible=true;
-        
-        return next.handle(req).do((ev: HttpEvent<any>) => 
-        {
-            if (ev instanceof HttpResponse) {
-                this.siteDataService.isSpinnerVisible= false ; }
-            
-          })
-          .catch((response) => {
-            this.siteDataService.isSpinnerVisible= false;
-            return Observable.throw(response);
-         });
-    
-}
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        this.siteDataService.isSpinnerVisible = true;
+
+        return next.handle(req)
+            .do((event: HttpEvent<any>) => {
+                if (event instanceof HttpResponse) {
+                    this.siteDataService.isSpinnerVisible = false;
+                }
+            })
+            .catch((response) => {
+                this.siteDataService.isSpinnerVisible = false;
+                return Observable.throw(response);
+            });
+
+    }
 }

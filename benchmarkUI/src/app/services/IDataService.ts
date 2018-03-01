@@ -1,5 +1,5 @@
 
-export interface IQuerysForWorkDataService {
+export interface IDataService {
 
       fill(recordsCount):Promise<any>;
       clearHistory():void;

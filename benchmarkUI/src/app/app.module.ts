@@ -3,16 +3,20 @@ import { NgModule } from '@angular/core';
 
 import { ChartService } from './services/chartService';
 import { SortFunctionService } from './services/sortFunctionService';
-import { QuerysOperationServiceEF } from './services/querysOperationServiceEF';
-import { QuerysOperationServiceSQL } from './services/querysOperationServiceSQL';
-import { QuerysForWorkDataService } from './services/querysForWorkDataService';
+import { QueriesEFOperationService } from './services/queriesEFOperationService';
+import { QueriesSQLOperationService } from './services/queriesSQLOperationService';
+import { DataService } from './services/dataService'
 import { InterceptService } from './services/interceptorService';
 import { SnackBarService } from './services/snackBarService'
 
 import { SiteDataService } from './services/siteDataService'
 
-import { HttpModule } from '@angular/http';
+
 import { AppComponent } from './components/app.component';
+import { HistoryComponent }   from './components/history.component';
+import { SessionComponent }   from './components/session.component';
+
+import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,8 +38,7 @@ import {
 import { CdkTableModule } from '@angular/cdk/table';
 
 
-import { HistoryComponent }   from './components/history.component';
-import { SessionComponent }   from './components/session.component';
+
 
 @NgModule({
   declarations: [
@@ -66,9 +69,9 @@ import { SessionComponent }   from './components/session.component';
   providers: [
     ChartService,
     SortFunctionService,
-    QuerysOperationServiceEF,
-    QuerysOperationServiceSQL,
-    QuerysForWorkDataService,
+    QueriesEFOperationService,
+    QueriesSQLOperationService,
+    DataService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptService,

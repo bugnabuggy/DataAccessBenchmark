@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QuerysForWorkDataService } from '../services/querysForWorkDataService';
+import { DataService } from '../services/dataService'
 import { ChartService} from '../services/chartService';
 import { TestsHistory } from '../models/testsHistory'
 import { MatPaginator, MatTableDataSource} from '@angular/material';
@@ -31,14 +31,14 @@ export class HistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginatorHistory: MatPaginator;
 
   constructor(
-    private querysService: QuerysForWorkDataService,
+    private dataService: DataService,
     private chartService: ChartService,
     private snackBar: SnackBarService
   ) { }
 
   ngOnInit(): void {
     
-    this.querysService.getRecordsForHistory().then(records => {
+    this.dataService.getRecordsForHistory().then(records => {
       this.testsHistory = [];
       for (let index in records) {
         let record = records[index]
@@ -79,7 +79,7 @@ export class HistoryComponent implements OnInit {
 
 
   clearHistory() {
-    this.querysService.clearHistory();
+    this.dataService.clearHistory();
     location.reload()
   }
 

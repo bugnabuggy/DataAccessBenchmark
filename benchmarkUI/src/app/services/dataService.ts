@@ -1,10 +1,10 @@
-import { IQuerysForWorkDataService } from './IQuerysForWorkDataService';
+import { IDataService } from './IDataService';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Endpoints } from '../models/endpoints';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class QuerysForWorkDataService implements IQuerysForWorkDataService {
+export class DataService implements IDataService {
     constructor(
         private http: HttpClient
       ) { }

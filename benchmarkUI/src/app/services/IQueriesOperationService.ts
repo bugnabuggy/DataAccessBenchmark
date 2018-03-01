@@ -1,4 +1,4 @@
-export interface IQuerysOperationService {
+export interface IQueriesOperationService {
 
     select():Promise<any> ;    
     flush():Promise<any>;

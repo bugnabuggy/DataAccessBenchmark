@@ -1,10 +1,10 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { QuerysOperationServiceEF } from '../services/querysOperationServiceEF';
-import { QuerysOperationServiceSQL } from '../services/querysOperationServiceSQL';
-import { QuerysForWorkDataService } from '../services/querysForWorkDataService';
+import { QueriesEFOperationService } from '../services/queriesEFOperationService';
+import { QueriesSQLOperationService } from '../services/queriesSQLOperationService';
+import { DataService } from '../services/dataService'
 import { TestsHistory } from '../models/testsHistory'
 import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { TestRecord} from '../models/testRecord'
+import { TestRecord } from '../models/testRecord'
 import { SnackBarService } from '../services/snackBarService'
 
 @Component({
@@ -21,9 +21,9 @@ export class SessionComponent implements OnInit {
   HDDType: string;
   HDDModels: string;
   constructor(
-    private operationServiceSQL: QuerysOperationServiceSQL,
-    private operationServiceEF: QuerysOperationServiceEF,
-    private dataService:QuerysForWorkDataService,
+    private operationServiceSQL: QueriesSQLOperationService,
+    private operationServiceEF: QueriesEFOperationService,
+    private dataService: DataService,
     private snackBar: SnackBarService
   ) { }
 
@@ -69,13 +69,15 @@ export class SessionComponent implements OnInit {
         this.session.unshift({ Id: "" + this.id++, Count: countRecords, OperationType: "Fill records", ExecutionTime: time });
         this.dataSourceSession.data = this.session;
       }).catch(error => {
-        if (error.status == 404){
-          this.snackBar.getSnackBar("wrong address")}
-          else{
-            this.snackBar.getSnackBar("the server is not available");}
+        if (error.status == 404) {
+          this.snackBar.getSnackBar("wrong address")
+        }
+        else {
+          this.snackBar.getSnackBar("the server is not available");
+        }
       });
     }
-    else{
+    else {
       this.snackBar.getSnackBar("enter the number of entries to add")
     }
 
@@ -86,10 +88,12 @@ export class SessionComponent implements OnInit {
       this.session.unshift({ Id: "" + this.id++, Count: time.count, OperationType: "Select with EF", ExecutionTime: time.executionTime });
       this.dataSourceSession.data = this.session;
     }).catch(error => {
-      if (error.status == 404){
-        this.snackBar.getSnackBar("wrong address")}
-        else{
-          this.snackBar.getSnackBar("the server is not available");}
+      if (error.status == 404) {
+        this.snackBar.getSnackBar("wrong address")
+      }
+      else {
+        this.snackBar.getSnackBar("the server is not available");
+      }
     });
   }
 
@@ -103,10 +107,12 @@ export class SessionComponent implements OnInit {
         this.snackBar.getSnackBar(time.error)
       }
     }).catch(error => {
-      if (error.status == 404){
-        this.snackBar.getSnackBar("specify the number of records to delete")}
-        else{
-          this.snackBar.getSnackBar("the server is not available")}
+      if (error.status == 404) {
+        this.snackBar.getSnackBar("specify the number of records to delete")
+      }
+      else {
+        this.snackBar.getSnackBar("the server is not available")
+      }
     });
   }
 
@@ -116,10 +122,12 @@ export class SessionComponent implements OnInit {
       this.session.unshift({ Id: "" + this.id++, Count: time.count, OperationType: "Flush with EF", ExecutionTime: time.executionTime });
       this.dataSourceSession.data = this.session;
     }).catch(error => {
-      if (error.status == 404){
-        this.snackBar.getSnackBar("wrong address")}
-        else{
-          this.snackBar.getSnackBar("the server is not available")}
+      if (error.status == 404) {
+        this.snackBar.getSnackBar("wrong address")
+      }
+      else {
+        this.snackBar.getSnackBar("the server is not available")
+      }
     });
   }
 
@@ -133,10 +141,12 @@ export class SessionComponent implements OnInit {
         this.snackBar.getSnackBar(time.error)
       }
     }).catch(error => {
-      if (error.status == 404){
-        this.snackBar.getSnackBar("wrong address")}
-        else{
-          this.snackBar.getSnackBar("the server is not available")}
+      if (error.status == 404) {
+        this.snackBar.getSnackBar("wrong address")
+      }
+      else {
+        this.snackBar.getSnackBar("the server is not available")
+      }
     });
   }
 
@@ -151,22 +161,26 @@ export class SessionComponent implements OnInit {
       }
     }
     ).catch(error => {
-      if (error.status == 404){
-        this.snackBar.getSnackBar("specify the number of records to delete")}
-        else{
-          this.snackBar.getSnackBar("the server is not available")}
+      if (error.status == 404) {
+        this.snackBar.getSnackBar("specify the number of records to delete")
+      }
+      else {
+        this.snackBar.getSnackBar("the server is not available")
+      }
     });
   }
-  
+
   flushSql() {
     this.operationServiceSQL.flush().then(time => {
       this.session.unshift({ Id: "" + this.id++, Count: time.count, OperationType: "Flush with SQL", ExecutionTime: time.executionTime });
       this.dataSourceSession.data = this.session;
     }).catch(error => {
-      if (error.status == 404){
-      this.snackBar.getSnackBar("wrong address")}
-      else{
-        this.snackBar.getSnackBar("the server is not available")}
+      if (error.status == 404) {
+        this.snackBar.getSnackBar("wrong address")
+      }
+      else {
+        this.snackBar.getSnackBar("the server is not available")
+      }
     });
   }
 
