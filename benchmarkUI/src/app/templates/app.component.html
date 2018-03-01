@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+      {{link.label}}
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
+</div>
+<div class="spinner center" *ngIf=isSpinnerAction>
+  <div class="row justify-content-center ">
+    <div class="col align-self-center ">
+      <mat-spinner diameter=100>
+      </mat-spinner>
+    </div>
+  </div>
+</div>

@@ -1,20 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { HTTPService } from './services/httpService';
 import { ChartService } from './services/chartService';
-import { SortFunctionService } from './services/sortFunctionService'
+import { SortFunctionService } from './services/sortFunctionService';
+import { QuerysOperationServiceEF } from './services/querysOperationServiceEF';
+import { QuerysOperationServiceSQL } from './services/querysOperationServiceSQL';
+import { QuerysForWorkDataService } from './services/querysForWorkDataService';
+import { InterceptService } from './services/interceptorService';
+
+import { SiteDataService } from './services/siteDataService'
 
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './components/app.component';
-import { HttpClientModule } from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule }     from './app-routing.module';
 
-import {MatButtonModule,
+import {
+        MatButtonModule,
         MatPaginatorModule,
         MatTableModule,
         MatInputModule,
@@ -22,8 +27,9 @@ import {MatButtonModule,
         MatSelectModule,
         MatListModule,
         MatDividerModule,
-        MatProgressSpinnerModule} from '@angular/material';
-import {CdkTableModule} from '@angular/cdk/table';
+        MatProgressSpinnerModule
+      } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
 
 
 import { HistoryComponent }   from './components/history.component';
@@ -54,7 +60,20 @@ import { SessionComponent }   from './components/session.component';
     CdkTableModule,
     AppRoutingModule
   ],
-  providers: [HTTPService ,ChartService,SortFunctionService],
+  providers: [
+    ChartService,
+    SortFunctionService,
+    QuerysOperationServiceEF,
+    QuerysOperationServiceSQL,
+    QuerysForWorkDataService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptService,
+      multi: true
+    },
+    SiteDataService
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

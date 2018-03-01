@@ -1,42 +1,31 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-5">
-      <div class="md-form">
-
+    <form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="form-group">
         <button mat-raised-button (click)='fill(countRecords.value)'>Fill records</button>
-
         <mat-form-field>
-          <input type="number" matInput #countRecords>
+          <input type="number" matInput #countRecords placeholder="Numbers">
         </mat-form-field>
-
       </div>
-      <div class="md-form">
-
+      <div class="form-group">
         <button mat-raised-button (click)='countDeleteEF(countDelete.value)'>Delete with EF</button>
-
         <button mat-raised-button (click)='countDeleteSQL(countDelete.value)'>Delete with SQL</button>
-
         <mat-form-field>
-          <input type="number" matInput #countDelete>
+          <input type="number" matInput #countDelete placeholder="Numbers">
         </mat-form-field>
-
       </div>
-      <div class="md-form">
-        <div class=" form-group">
+      <div class="form-group">        
           <button mat-raised-button (click)='selectEF()'>Select with EF</button>
-
           <button mat-raised-button (click)='selectSql()'>Select with SQL</button>
         </div>
-      </div>
-      <div class="md-form">
-
+      <div class="form-group">
         <button mat-raised-button (click)='flushEF()'>Flush with EF</button>
-
         <button mat-raised-button (click)='flushSql()'>Flush with SQL</button>
-
       </div>
     </div>
-    <div class="col-7">
+    <div class="form-group col-md-6">
+   
       <mat-list>
         <mat-list-item>CPU: {{CPU}}</mat-list-item>
         <mat-divider></mat-divider>
@@ -49,6 +38,7 @@
 
     </div>
   </div>
+</form>
 </div>
 <div class="paddingTop">
   <div class="mat-elevation-z8">
@@ -85,11 +75,4 @@
     </mat-paginator>
   </div>
 
-  <div class="spinner center" *ngIf=isSpinner>
-    <div class="row justify-content-center ">
-      <div class="col align-self-center ">
-        <mat-spinner diameter=100>
-        </mat-spinner>
-      </div>
-    </div>
-  </div>
+ 
