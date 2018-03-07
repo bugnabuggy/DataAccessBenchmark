@@ -28,6 +28,7 @@ export class SessionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    debugger
     this.dataService.serverFeatures().then(serverFeatures => {
       this.CPU = serverFeatures.cpu;
       this.RAM = serverFeatures.ram;

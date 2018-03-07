@@ -11,10 +11,9 @@ import { SnackBarService } from './services/snackBarService'
 
 import { SiteDataService } from './services/siteDataService'
 
-
-import { AppComponent } from './components/app.component';
-import { HistoryComponent }   from './components/history.component';
-import { SessionComponent }   from './components/session.component';
+import { AppComponent } from './components/app.component'
+import { HistoryComponent } from './components/history.component'
+import { SessionComponent } from './components/session.component'
 
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
