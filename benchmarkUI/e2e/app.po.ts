@@ -63,8 +63,16 @@ export class AppPage {
  
 
   countRowRecords(){
-    let test = element.all(by.tagName('mat-row'));
-    return test.count();
+    return element.all(by.tagName('mat-row')).count();
+  }
+
+  clickandСhooseTypeOperation(){
+    element.all(by.tagName('mat-select')).get(1).click()
+    element.all(by.tagName('mat-option')).get(1).click()
+  }
+
+  getChangeCanvas(){
+    return element(by.tagName('canvas')).getAttribute('width')
   }
 
 

@@ -43,5 +43,14 @@ describe('benchmark-ui App', () => {
     expect(before).not.toEqual(afte);
   });
 
+  it('should creat chart', () => {
+    page.navigateTo();
+    page.clickTabsHistory();
+    let before = page.getChangeCanvas();
+    page.clickandСhooseTypeOperation();
+    let afte = page.getChangeCanvas();
+    page.tick();
+    expect(before).not.toEqual(afte);
+  });  
 
 });

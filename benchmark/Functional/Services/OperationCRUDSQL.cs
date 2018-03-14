@@ -38,16 +38,20 @@ namespace benchmark.Functional.Services
                                       "LEFT JOIN Products AS p ON p.VendorId = Vendors.Id " +
                                       "GROUP BY Vendors.Id, Vendors.Name ";
                 this._ctx.Database.OpenConnection();
-                var reader = command.ExecuteReader();
+              using (var reader = command.ExecuteReader())
+              {
+                
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
-                    {
-                        var data = new object[reader.FieldCount];
-                        var count = reader.GetValues(data);
-                        countItem++;
-                    }
+                  while (reader.Read())
+                  {
+                    var data = new object[reader.FieldCount];
+                    reader.GetValues(data);
+                    countItem++;
+                  }
                 }
+
+        }
 
             }
             return countItem;
