@@ -70,13 +70,13 @@ describe('SessionComponent', () => {
     httpClient = TestBed.get(HttpClient);
     httpTestingController = TestBed.get(HttpTestingController);
     dataService = new DataService(httpClient);
+    queriesEFOperationService = new QueriesEFOperationService(httpClient)
   });
   afterEach(() => { 
 
     httpTestingController.verify();
   });
   it(`should call server info endpoint and get data`, fakeAsync( () => {
-
     fixture = TestBed.createComponent(SessionComponent)
     let session = fixture.componentInstance;
     let cpu = session.CPU
@@ -89,19 +89,10 @@ describe('SessionComponent', () => {
     expect(matListItem.innerText).toContain('CPU: 1')
   }));
 
-
-  it(`should call server info endpoint and get fill `, fakeAsync( () => {
-    debugger
+  it('should call server add records and get info about operation', fakeAsync( () => {
     fixture = TestBed.createComponent(SessionComponent)
     let session = fixture.componentInstance;
-    let cpu = session.CPU
-    expect(cpu).toEqual(undefined)
-    advance()
-    const req = httpTestingController.expectOne(Endpoints.baseURL + 'ServerInfo');
-    req.flush(testData);
-    advance()
-    let matListItem = fixture.nativeElement.querySelector('mat-list-item')
-    expect(matListItem.innerText).toContain('CPU: 1')
+    let routeroutlet = fixture.nativeElement.querySelector('router-outlet')
   }));
 
 });

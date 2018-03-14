@@ -28,7 +28,6 @@ export class SessionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    debugger
     this.dataService.serverFeatures().then(serverFeatures => {
       this.CPU = serverFeatures.cpu;
       this.RAM = serverFeatures.ram;
@@ -67,8 +66,13 @@ export class SessionComponent implements OnInit {
   fill(countRecords: number) {
     if (countRecords > 0) {
       this.dataService.fill(countRecords).then(time => {
-        this.session.unshift({ Id: "" + this.id++, Count: countRecords, OperationType: "Fill records", ExecutionTime: time });
-        this.dataSourceSession.data = this.session;
+        if (time.error == "") {
+          this.session.unshift({ Id: "" + this.id++, Count: countRecords, OperationType: "Fill records", ExecutionTime: time.executionTime });
+          this.dataSourceSession.data = this.session;
+        }
+        else {
+          this.snackBar.getSnackBar(time.error)
+        }
       }).catch(error => {
         if (error.status == 404) {
           this.snackBar.getSnackBar("wrong address")

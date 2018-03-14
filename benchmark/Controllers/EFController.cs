@@ -45,16 +45,20 @@ namespace benchmark.Controllers
         }
 
         [HttpPost]
-        public  JsonResult Post([FromBody]int recordsCount)
+        public RecordResult Post([FromBody]int recordsCount)
         {
-
+          string error;
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            this._serviceFroWorkWithDB.Fill(recordsCount);
+            error = this._serviceFroWorkWithDB.Fill(recordsCount);
             stopwatch.Stop();
             var time = stopwatch.Elapsed.ToString();
             this._repositoryHistory.Add(new TestHistory() { Count = recordsCount, OperationType = "Fill records", ExecutionTime = time });
-            return Json(time);
+            return new RecordResult()
+                {
+                    Error = error,
+                    ExecutionTime = time,
+                };
 
         }
 

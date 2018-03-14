@@ -8,7 +8,7 @@ namespace benchmark.Functional.Services
 {
     public interface IServiceFroWorkWithDB
     {
-        void Fill(int countRecords);
+        string Fill(int countRecords);
         IEnumerable<TestHistory> GetHistory();
         IEnumerable<Vendor> GetVendorsToDelete(int count);
     }

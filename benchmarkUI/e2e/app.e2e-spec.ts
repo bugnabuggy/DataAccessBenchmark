@@ -9,6 +9,11 @@ describe('benchmark-ui App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    page.inputForButtunFill();
+    debugger
+    var before = page.addTable()
+    page.clickButtonFill().click();
+    var afte = page.addTable()
+    expect(before.length+1).toEqual(afte.length);
   });
 });
