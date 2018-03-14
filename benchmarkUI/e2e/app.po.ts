@@ -1,42 +1,71 @@
 import { browser, by, element } from 'protractor';
 
 export class AppPage {
-  navigateToSession() {
-    return browser.get('/Session');
-  }
-  navigateToHistory(){
-    return browser.get('/History');
-  }
-
-  navigateTo(){
+  navigateTo() {
     return browser.get('/');
   }
-  
-  nextPageToHistory(){
-    return element.all(by.css('app-root a.mat-tab-link')).get(1)
+
+
+  clickTabsHistory(){
+    return element.all(by.css('a.mat-tab-link')).get(1).click();
   }
 
-  nextToPageToSession(){
-    
+  clickTabsSession(){
+    return element.all(by.css('a.mat-tab-link')).get(0).click();
   }
 
   clickButtonFill(){
-    return element(by.css('button.mat-raised-button'));
-  }
-  inputForButtunFill(){
-    return element(by.css('input')).sendKeys(50)
+    return element(by.css('button')).click();
   }
 
-  addTable(){
-    return element.all(by.tagName('mat-row')).count;
+  clickButtonClearHistory(){
+    return element(by.css('button')).click();
   }
 
-  getOpenHistory(){
-    return element(by.tagName('app-history'));
+  clickButtonDeleteEF(){
+    return element.all(by.css('button')).get(1).click();
   }
 
-  getParagraphText() {
-    return element(by.css('app-session mat-list-item')).getText();
+  clickButtonDeleteSQL(){
+    return element.all(by.css('button')).get(2).click();
   }
+  clickButtonSelectEF(){
+    return element.all(by.css('button')).get(3).click();
+  }
+
+  clickButtonSelectSQL(){
+    return element.all(by.css('button')).get(4).click();
+  }
+
+  clickButtonFlushEF(){
+    return element.all(by.css('button')).get(5).click();
+  }
+
+  clickButtonFlushSQL(){
+    return element.all(by.css('button')).get(6).click();
+  }
+
+  setInputForButtonFill(){
+    return element(by.css('input')).sendKeys(20);
+  }
+
+  setInputForButtonDelete(){
+    return element.all(by.css('input')).get(1).sendKeys(5);
+  }
+
+  
+
+ 
+  tick(){
+    return browser.waitForAngular();
+  }
+
+ 
+
+  countRowRecords(){
+    let test = element.all(by.tagName('mat-row'));
+    return test.count();
+  }
+
 
 }
